@@ -1,7 +1,6 @@
 import express from "express";
-import dotenv from "dotenv";
 
-dotenv.config();
+import pool from "./db";
 
 const app = express();
 
@@ -14,13 +13,20 @@ app.get("/", (req, res) => {
 
 const server = app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
+  pool
+    .query("SELECT NOW()") // test database connection
+    .then(() => console.log("Database connected successfully"))
+    .catch((err) => {
+      console.error("Database connection failed:", err);
+      process.exit(1);
+    });
 });
 
 const gracefulShutdown = () => {
   console.log("Shutting down gracefully...");
   server.close(() => {
     console.log("Server closed gracefully.");
-    // database.end(); // TODO: Implement database
+    pool.end();
     process.exit(0);
   });
 };
