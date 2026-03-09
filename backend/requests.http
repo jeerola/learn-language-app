@@ -1,0 +1,5 @@
+### Get all languages
+GET http://localhost:3000/api/languages
+
+### Get all word pairs
+GET http://localhost:3000/api/words
