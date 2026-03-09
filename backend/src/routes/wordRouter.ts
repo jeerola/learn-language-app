@@ -3,6 +3,8 @@ import pool from "../db/pool";
 
 const router = Router();
 
+// Fetches all word pairs with their actual word text and language names
+// Requires JOIN with 'words' and 'languages' as 'word_pairs' only stores word ID's.
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -21,6 +23,50 @@ router.get("/", async (req, res) => {
   } catch (error) {
     console.error("Error fetching word pairs: ", error);
     res.status(500).json({ error: "Internal server error " });
+  }
+});
+
+// Creates word pair by inserting both words separately to 'words' - table,
+// then linking them together in 'word_pairs' -table.
+// Uses transaction so if any step fails, all changes are reverted with ROLLBACK.
+router.post("/", async (req, res) => {
+  const { word1, language1_id, word2, language2_id } = req.body;
+
+  // TAke single client from pool to ensure all queries share the same connection
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    // Insert each word separately and retrieve the generated id for linking them.
+    const word1Result = await client.query(
+      "INSERT INTO words (word, language_id) VALUES ($1, $2) RETURNING id",
+      [word1, language1_id],
+    );
+    const word1Id = word1Result.rows[0].id;
+
+    const word2Result = await client.query(
+      "INSERT INTO words (word, language_id) VALUES ($1, $2) RETURNING id",
+      [word2, language2_id],
+    );
+    const word2Id = word2Result.rows[0].id;
+
+    // Link two created words together as a translation pair.
+    await client.query(
+        'INSERT INTO word_pairs (word_id_1, word_id_2) VALUES ($1, $2)',
+        [word1Id, word2Id]
+    )
+
+    await client.query("COMMIT");
+    res.status(201).json({ message: "Word pair created successfully." });
+  } catch (error) {
+    // Undo all changes if any query fails to prevent orphan words with no connections in database
+    await client.query("ROLLBACK");
+    console.error("Error creating word pair: ", error);
+    res.status(500).json({ error: "Internal server error" });
+  } finally {
+    // Always return the client back to pool, regardless of success or failure
+    client.release();
   }
 });
 
