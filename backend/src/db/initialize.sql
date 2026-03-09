@@ -2,7 +2,8 @@
 -- New languages can be added without affecting existing data.
 CREATE TABLE IF NOT EXISTS languages (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL
+    name VARCHAR(50) NOT NULL,
+    code VARCHAR(10) NOT NULL UNIQUE
 );
 
 -- Individual words linked to specific languages.
