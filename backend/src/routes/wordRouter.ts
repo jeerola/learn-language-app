@@ -95,4 +95,57 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// Updates word text for both words in a pair.
+// Uses transaction to ensure both words are updated together or not at all.
+router.put("/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+
+  // Reject request if ID is not a positive integer
+  if (isNaN(id) || id <= 0) {
+    res.status(400).json({ error: "Invalid ID" });
+    return;
+  }
+
+  // Take single client from pool to ensure all queries share the same connection
+  const client = await pool.connect();
+
+  const { word1, word2 } = req.body;
+
+  try {
+    await client.query("BEGIN");
+    const result = await client.query(
+      "SELECT word_id_1, word_id_2 FROM word_pairs WHERE id = $1",
+      [id],
+    );
+
+    if (result.rowCount === 0) {
+        res.status(404).json({ error: "Word pair not found."});
+        return;
+    }
+
+    const word_id_1 = result.rows[0].word_id_1;
+    const word_id_2 = result.rows[0].word_id_2;
+
+    await client.query("UPDATE words SET word = $1 WHERE id = $2", [
+      word1,
+      word_id_1,
+    ]);
+
+    await client.query("UPDATE words SET word = $1 WHERE id = $2", [
+      word2,
+      word_id_2,
+    ]);
+
+    await client.query("COMMIT");
+    res.status(200).json({ message: "Word pair updated successfully." });
+  } catch (error) {
+    await client.query("ROLLBACK");
+    console.error("Error updating word pair: ", error);
+    res.status(500).json({ error: "Internal server error" });
+  } finally {
+    // Always return the client back to pool, regardless of success or failure
+    client.release();
+  }
+});
+
 export default router;
