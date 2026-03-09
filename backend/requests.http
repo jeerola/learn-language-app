@@ -3,3 +3,14 @@ GET http://localhost:3000/api/languages
 
 ### Get all word pairs
 GET http://localhost:3000/api/words
+
+### Create word pair
+POST http://localhost:3000/api/words
+Content-Type: application/json
+
+{
+  "word1": "Dog",
+  "language1_id": 2,
+  "word2": "Koira",
+  "language2_id": 1
+}
