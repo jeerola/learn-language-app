@@ -8,7 +8,6 @@ function App() {
   const [languages, setLanguages] = useState<Language[]>([]);
   const [wordPairs, setWordPairs] = useState<WordPair[]>([]);
 
-
   return (
     <div>
       <button
@@ -18,7 +17,7 @@ function App() {
           console.log(data);
         }}
       >
-        Fetch Wordpairs
+        Fetch Languages
       </button>
       <ul>
         {languages.map((language) => (
@@ -37,7 +36,9 @@ function App() {
       </button>
       <ul>
         {wordPairs.map((wordPair) => (
-          <li key={wordPair.id}>{wordPair.word1} - {wordPair.word2}</li>
+          <li key={wordPair.id}>
+            {wordPair.word1} - {wordPair.word2}
+          </li>
         ))}
       </ul>
     </div>
