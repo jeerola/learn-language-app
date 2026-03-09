@@ -14,3 +14,12 @@ Content-Type: application/json
   "word2": "Koira",
   "language2_id": 1
 }
+
+### Delete word pair
+DELETE http://localhost:3000/api/words/1
+
+### Delete non-existing word pair
+DELETE http://localhost:3000/api/words/999
+
+### Try to delete word pair with invalid ID
+DELETE http://localhost:3000/api/words/qwerty
