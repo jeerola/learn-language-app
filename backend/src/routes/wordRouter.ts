@@ -32,7 +32,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   const { word1, language1_id, word2, language2_id } = req.body;
 
-  // TAke single client from pool to ensure all queries share the same connection
+  // Take single client from pool to ensure all queries share the same connection
   const client = await pool.connect();
 
   try {
@@ -53,9 +53,9 @@ router.post("/", async (req, res) => {
 
     // Link two created words together as a translation pair.
     await client.query(
-        'INSERT INTO word_pairs (word_id_1, word_id_2) VALUES ($1, $2)',
-        [word1Id, word2Id]
-    )
+      "INSERT INTO word_pairs (word_id_1, word_id_2) VALUES ($1, $2)",
+      [word1Id, word2Id],
+    );
 
     await client.query("COMMIT");
     res.status(201).json({ message: "Word pair created successfully." });
@@ -67,6 +67,31 @@ router.post("/", async (req, res) => {
   } finally {
     // Always return the client back to pool, regardless of success or failure
     client.release();
+  }
+});
+
+// Deletes word pair using its ID.
+router.delete("/:id", async (req, res) => {
+  const id = parseInt(req.params.id);
+
+  // Reject request if ID is not a positive integer
+  if (isNaN(id) || id <= 0) {
+    res.status(400).json({ error: "Invalid ID" });
+    return;
+  }
+
+  try {
+    const result = await pool.query("DELETE FROM word_pairs WHERE id = $1", [
+      id,
+    ]);
+    if (result.rowCount === 0) {
+      res.status(404).json({ error: "Word pair not found." });
+      return;
+    }
+    res.status(204).send(); // Word pair successfully deleted / 204 = No Content
+  } catch (error) {
+    console.error("Error deleting word pair: ", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
