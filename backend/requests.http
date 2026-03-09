@@ -23,3 +23,12 @@ DELETE http://localhost:3000/api/words/999
 
 ### Try to delete word pair with invalid ID
 DELETE http://localhost:3000/api/words/qwerty
+
+### Update word pair
+PUT http://localhost:3000/api/words/1
+Content-Type: application/json
+
+{
+  "word1": "Cat",
+  "word2": "Kissa"
+}
