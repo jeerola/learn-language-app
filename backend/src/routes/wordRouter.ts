@@ -152,8 +152,25 @@ router.put("/:id", async (req, res) => {
       word_id_2,
     ]);
 
+    const updatedPairResult = await client.query(
+      `
+      SELECT
+          word_pairs.id,
+          w1.word AS word1,
+          l1.name AS language1,
+          w2.word AS word2,
+          l2.name AS language2
+      FROM word_pairs
+          JOIN words AS w1 ON word_pairs.word_id_1 = w1.id
+          JOIN words AS w2 ON word_pairs.word_id_2 = w2.id
+          JOIN languages AS l1 ON w1.language_id = l1.id
+          JOIN languages AS l2 ON w2.language_id = l2.id
+      WHERE word_pairs.id = $1`,
+      [id],
+    );
+
     await client.query("COMMIT");
-    res.status(200).json({ message: "Word pair updated successfully." });
+    res.status(200).json(updatedPairResult.rows[0]);
   } catch (error) {
     await client.query("ROLLBACK");
     console.error("Error updating word pair: ", error);
