@@ -41,3 +41,18 @@ export async function createWordPair(
 
   return data;
 }
+
+export async function updateWordPair(id: number, word1: string, word2: string) {
+  const response = await fetch(`/api/words/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      word1,
+      word2
+    }),
+  });
+
+  const data = (await response.json()) as WordPair;
+
+  return data;
+}
