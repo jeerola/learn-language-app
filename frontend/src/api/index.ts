@@ -19,3 +19,25 @@ export async function deleteWordPair(id: number) {
     method: "DELETE",
   });
 }
+
+export async function createWordPair(
+  word1: string,
+  word2: string,
+  language1_id: number,
+  language2_id: number,
+) {
+  const response = await fetch(`/api/words/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      word1,
+      word2,
+      language1_id,
+      language2_id,
+    }),
+  });
+
+  const data = (await response.json()) as WordPair;
+
+  return data;
+}
