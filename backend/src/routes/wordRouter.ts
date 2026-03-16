@@ -52,13 +52,29 @@ router.post("/", async (req, res) => {
     const word2Id = word2Result.rows[0].id;
 
     // Link two created words together as a translation pair.
-    await client.query(
-      "INSERT INTO word_pairs (word_id_1, word_id_2) VALUES ($1, $2)",
+    const idResult = await client.query(
+      "INSERT INTO word_pairs (word_id_1, word_id_2) VALUES ($1, $2) RETURNING id",
       [word1Id, word2Id],
     );
 
+    const id = idResult.rows[0].id;
+
+    const newPairResult = await client.query(`
+      SELECT
+          word_pairs.id,
+          w1.word AS word1,
+          l1.name AS language1,
+          w2.word AS word2,
+          l2.name AS language2
+      FROM word_pairs
+          JOIN words AS w1 ON word_pairs.word_id_1 = w1.id
+          JOIN words AS w2 ON word_pairs.word_id_2 = w2.id
+          JOIN languages AS l1 ON w1.language_id = l1.id
+          JOIN languages AS l2 ON w2.language_id = l2.id
+      WHERE word_pairs.id = $1`, [id]);
+
     await client.query("COMMIT");
-    res.status(201).json({ message: "Word pair created successfully." });
+    res.status(201).json(newPairResult.rows[0]);
   } catch (error) {
     // Undo all changes if any query fails to prevent orphan words with no connections in database
     await client.query("ROLLBACK");
