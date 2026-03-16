@@ -1,28 +1,39 @@
 import { useState } from "react";
 import type { Language, WordPair } from "../types";
-import { createWordPair } from "../api";
+import { createWordPair, updateWordPair } from "../api";
 
 interface Props {
+  editingPair: WordPair | null;
   languages: Language[];
   defaultLanguageId: number;
   onWordPairCreated: (wordPair: WordPair) => void;
+  onWordPairUpdated: (wordPair: WordPair) => void;
 }
 
-export function WordPairForm({ languages, defaultLanguageId, onWordPairCreated }: Props) {
-  const [word1, setWord1] = useState("");
-  const [word2, setWord2] = useState("");
+export function WordPairForm({ languages, defaultLanguageId, editingPair, onWordPairCreated, onWordPairUpdated}: Props) {
+  const [word1, setWord1] = useState(editingPair ? editingPair.word1 : "");
+  const [word2, setWord2] = useState(editingPair ? editingPair.word2 : "");
   const [languageId1, setLanguageId1] = useState(defaultLanguageId);
   const [languageId2, setLanguageId2] = useState(defaultLanguageId);
 
   const handleSubmit = async () => {
-    const newWordPair = await createWordPair(
-      word1,
-      word2,
-      languageId1,
-      languageId2,
-    );
-    onWordPairCreated(newWordPair);
-  };
+    if (editingPair != null) {
+      const updatedPair = await updateWordPair(
+        editingPair.id,
+        word1,
+        word2
+      );
+      onWordPairUpdated(updatedPair);
+    } else {
+      const newWordPair = await createWordPair(
+        word1,
+        word2,
+        languageId1,
+        languageId2,
+      );
+      onWordPairCreated(newWordPair);
+    }
+  }
 
   return (
     <div>
@@ -60,7 +71,7 @@ export function WordPairForm({ languages, defaultLanguageId, onWordPairCreated }
           </select>
         </fieldset>
       </form>
-      <button onClick={() => handleSubmit()}>Add word pair</button>
+      <button onClick={() => handleSubmit()}> {editingPair ? "Edit word pair" : "Add word pair"} </button>
     </div>
   );
 }
