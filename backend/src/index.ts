@@ -14,10 +14,6 @@ app.use(express.json());
 app.use("/api/languages", languageRouter);
 app.use("/api/words", wordRouter);
 
-app.get("/", (req, res) => {
-  res.status(200).send("Hello world!");
-});
-
 const server = app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
   pool
