@@ -3,8 +3,10 @@ import pool from "../db/pool";
 
 const router = Router();
 
-// Fetches all word pairs with their actual word text and language names
-// Requires JOIN with 'words' and 'languages' as 'word_pairs' only stores word ID's.
+/**
+ * Fetches all word pairs with their actual word text and language names.
+ * Requires JOIN with 'words' and 'languages' as 'word_pairs' only stores word ID's.
+ */
 router.get("/", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -26,9 +28,21 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Creates word pair by inserting both words separately to 'words' - table,
-// then linking them together in 'word_pairs' -table.
-// Uses transaction so if any step fails, all changes are reverted with ROLLBACK.
+/**
+ * Creates word pair by inserting both words separately to 'words' - table,
+ * then linking them together in 'word_pairs' -table.
+ * Uses transaction so if any step fails, all changes are reverted with ROLLBACK.
+ *
+ * @example
+ * Request body:
+ *
+ * {
+ * "word1": "Dog",
+ * "language1_id": 1,
+ * "word2": "Koira",
+ * "language2_id": 2
+ * }
+ */
 router.post("/", async (req, res) => {
   const { word1, language1_id, word2, language2_id } = req.body;
 
@@ -86,7 +100,9 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Deletes word pair using its ID.
+/**
+ * Deletes word pair using its ID.
+ */
 router.delete("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
 
@@ -111,8 +127,17 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// Updates word text for both words in a pair.
-// Uses transaction to ensure both words are updated together or not at all.
+/**
+ * Updates word text for both words in a pair.
+ * Uses transaction to ensure both words are updated together or not at all.
+ *
+ * @example
+ * Request body:
+ * {
+ * "word1": "Cat",
+ * "word2": "Kissa"
+ * }
+ */
 router.put("/:id", async (req, res) => {
   const id = parseInt(req.params.id);
 

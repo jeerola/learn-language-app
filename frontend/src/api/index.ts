@@ -1,5 +1,10 @@
 import type { Language, WordPair } from "../types";
 
+/**
+ * Fetches all languages
+ *
+ * @returns {Language[]} Array of all available languages.
+ */
 export async function getLanguages() {
   const response = await fetch("/api/languages");
   const data = (await response.json()) as Language[];
@@ -7,6 +12,11 @@ export async function getLanguages() {
   return data;
 }
 
+/**
+ * Fetches all word pairs
+ *
+ * @returns {WordPair[]} Array of all available word pairs.
+ */
 export async function getWordPairs() {
   const response = await fetch("/api/words");
   const data = (await response.json()) as WordPair[];
@@ -14,12 +24,27 @@ export async function getWordPairs() {
   return data;
 }
 
+/**
+ * Deletes a word pair.
+ *
+ * @param id - Identification number of a deleted word pair
+ * @returns {void}
+ */
 export async function deleteWordPair(id: number) {
   await fetch(`/api/words/${id}`, {
     method: "DELETE",
   });
 }
 
+/**
+ * Creates a word pair from user input
+ *
+ * @param word1 - First word of a word pair
+ * @param word2 - Second word of a word pair
+ * @param language1_id - First languages identification number of a word pair
+ * @param language2_id - Second languages identification number of a word pair
+ * @returns {WordPair} - Created word pair object
+ */
 export async function createWordPair(
   word1: string,
   word2: string,
@@ -42,6 +67,14 @@ export async function createWordPair(
   return data;
 }
 
+/**
+ * Updates existing word pair
+ *
+ * @param id - Identification number of a word pair that is updated
+ * @param word1 - First word of a word pair
+ * @param word2 - Second word of a word pair
+ * @returns {WordPair} - Updated word pair object
+ */
 export async function updateWordPair(id: number, word1: string, word2: string) {
   const response = await fetch(`/api/words/${id}`, {
     method: "PUT",

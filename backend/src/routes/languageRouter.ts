@@ -3,6 +3,9 @@ import pool from "../db/pool";
 
 const router = Router();
 
+/**
+ * Fetches all languages from database.
+ */
 router.get("/", async (req, res) => {
     try {
         const result = await pool.query("SELECT * FROM languages")

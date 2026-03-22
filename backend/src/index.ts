@@ -25,6 +25,9 @@ app.get("{*path}", (req, res) => {
   res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
 })
 
+/**
+ * Starts express server, and verifies database connection with simple time query.
+ */
 const server = app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
   pool
@@ -36,6 +39,12 @@ const server = app.listen(port, () => {
     });
 });
 
+/**
+ * Executes graceful shutdown, closing server and pool.
+ *
+ * Ensures active connections are closed cleanly before exiting, preventing data loss
+ * or lingering connections.
+ */
 const gracefulShutdown = () => {
   console.log("Shutting down gracefully...");
   server.close(() => {
