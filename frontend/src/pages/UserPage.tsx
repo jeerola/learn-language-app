@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Card, Heading, Input, Group, Button, VStack } from "@chakra-ui/react";
 
 import { type WordPair } from "../types";
 import { getWordPairs } from "../api";
@@ -38,19 +39,35 @@ export const UserPage = () => {
   }, []);
 
   return (
-    <div>
-      <h1>User Page</h1>
+    <VStack mx={"auto"} gap={"4"}>
+      <Heading size={"3xl"}>User Page</Heading>
+      <Card.Root w={"sm"} maxW={"sm"} mx={"auto"}>
+        <Card.Header textAlign="center">
+          Word: {currentWordPair + 1} / {wordPairs.length}
+        </Card.Header>
+        <Card.Body textAlign="center">
+          {wordPairs.length > 0 && <p>{wordPairs[currentWordPair]?.word1}</p>}
+        </Card.Body>
+      </Card.Root>
 
-      {wordPairs.length > 0 && <p>{wordPairs[currentWordPair]?.word1}</p>}
-      <input
-        type="text"
-        value={userInput}
-        onChange={(e) => setUserInput(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") handleSubmit()
-        }}
-      />
-      <button onClick={() => handleSubmit()}>SUBMIT</button>
-    </div>
+      <Group w={"sm"}>
+        <Input
+          variant={"outline"}
+          type="text"
+          value={userInput}
+          onChange={(e) => setUserInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSubmit();
+          }}
+        />
+        <Button
+          variant={"outline"}
+          colorPalette={"yellow"}
+          onClick={() => handleSubmit()}
+        >
+          Submit
+        </Button>
+      </Group>
+    </VStack>
   );
 };
