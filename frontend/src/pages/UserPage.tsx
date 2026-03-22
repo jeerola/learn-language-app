@@ -46,6 +46,9 @@ export const UserPage = () => {
         type="text"
         value={userInput}
         onChange={(e) => setUserInput(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") handleSubmit()
+        }}
       />
       <button onClick={() => handleSubmit()}>SUBMIT</button>
     </div>
