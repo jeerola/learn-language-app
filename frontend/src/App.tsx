@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "./App.css";
 
+import { Button, Group } from "@chakra-ui/react";
+import { ColorModeButton } from "./components/ui/color-mode";
+
 import { AdminPage } from "./pages/AdminPage";
 import { UserPage } from "./pages/UserPage";
 
@@ -9,9 +12,25 @@ function App() {
 
   return (
     <div>
-      <button onClick={() => setCurrentView("admin")}>Admin View</button>
+      <Group>
+        <Button
+          variant={"outline"}
+          colorPalette={"green"}
+          onClick={() => setCurrentView("admin")}
+        >
+          Admin View
+        </Button>
 
-      <button onClick={() => setCurrentView("user")}>User View</button>
+        <Button
+          variant={"outline"}
+          colorPalette={"red"}
+          onClick={() => setCurrentView("user")}
+        >
+          User View
+        </Button>
+        <ColorModeButton/>
+      </Group>
+
       {currentView === "admin" && <AdminPage />}
       {currentView === "user" && <UserPage />}
     </div>
