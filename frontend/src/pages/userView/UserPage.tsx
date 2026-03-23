@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Card, Heading, Input, Group, Button, VStack } from "@chakra-ui/react";
 
-import { type WordPair } from "../types";
-import { getWordPairs } from "../api";
+import { type WordPair } from "../../types";
+import { getWordPairs } from "../../api";
 
 export const UserPage = () => {
   const [wordPairs, setWordPairs] = useState<WordPair[]>([]);
