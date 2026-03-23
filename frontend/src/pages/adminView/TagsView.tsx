@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { createTag, getTags } from "@/api";
+import { createTag, deleteTag, getTags } from "@/api";
 import { type Tag } from "@/types";
 import { VStack, Table, Input, Group, Button } from "@chakra-ui/react";
 
@@ -26,6 +26,11 @@ export const TagsView = () => {
     }
   };
 
+  const handleDelete = async (id: number) => {
+      await deleteTag(id);
+      setTags((current) => current.filter((wp) => wp.id !== id));
+    };
+
   return (
     <VStack>
       <Group attached>
@@ -50,6 +55,7 @@ export const TagsView = () => {
           <Table.Row>
             <Table.ColumnHeader>Tag ID</Table.ColumnHeader>
             <Table.ColumnHeader>Tag Name</Table.ColumnHeader>
+            <Table.ColumnHeader>Actions</Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -57,6 +63,15 @@ export const TagsView = () => {
             <Table.Row key={tag.id}>
               <Table.Cell>{tag.id}</Table.Cell>
               <Table.Cell>{tag.name}</Table.Cell>
+              <Table.Cell>
+                <Button
+                  variant={"outline"}
+                  colorPalette={"red"}
+                  onClick={() => handleDelete(tag.id)}
+                >
+                  DELETE
+                </Button>
+              </Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
