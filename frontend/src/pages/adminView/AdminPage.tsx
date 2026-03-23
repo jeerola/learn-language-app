@@ -11,20 +11,35 @@ export const AdminPage = () => {
 
   return (
     <HStack>
-      <Box left={0} top={0} position={"fixed"} bg={"blue"} w={"20%"} h={"40%"} p={"4"}>
+      <Box left={0} top={"48px"} position={"fixed"} w={"120px"} p={"4"}>
         <VStack>
-          <Button w={"100%"} onClick={() => setCurrentView("home")}>
+          <Button
+            variant={"outline"}
+            colorPalette={"blue"}
+            w={"100%"}
+            onClick={() => setCurrentView("home")}
+          >
             Home
           </Button>
-          <Button w={"100%"} onClick={() => setCurrentView("words")}>
+          <Button
+            variant={"outline"}
+            colorPalette={"blue"}
+            w={"100%"}
+            onClick={() => setCurrentView("words")}
+          >
             Words
           </Button>
-          <Button w={"100%"} onClick={() => setCurrentView("tags")}>
+          <Button
+            variant={"outline"}
+            colorPalette={"blue"}
+            w={"100%"}
+            onClick={() => setCurrentView("tags")}
+          >
             Tags
           </Button>
         </VStack>
       </Box>
-      <Box marginLeft={"20%"} bg={"green"} w={"80%"} p={"4"}>
+      <Box marginLeft={"120px"} w={"calc(100% - 120px)"} p={"4"}>
         {currentView === "home" && <AdminLandingView />}
         {currentView === "words" && <WordPairsView />}
         {currentView === "tags" && <TagsView />}

@@ -41,7 +41,7 @@ export const WordPairsView = () => {
 
   return (
     <VStack>
-      <Heading size={"3xl"}>Admin Page</Heading>{" "}
+      <Heading size={"3xl"}>Admin Page</Heading>
       {languages.length > 0 && (
         <WordPairForm
           editingPair={editingPair}
