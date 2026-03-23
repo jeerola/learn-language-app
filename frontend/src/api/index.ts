@@ -121,3 +121,15 @@ export async function createTag(name: string) {
 
   return data;
 }
+
+/**
+ * Deletes a tag
+ *
+ * @param id - Identification number of a deleted tag
+ * @returns {void}
+ */
+export async function deleteTag(id: number) {
+  await fetch(`/api/tags/${id}`, {
+    method: "DELETE",
+  });
+}
