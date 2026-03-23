@@ -27,3 +27,14 @@ export type WordPair = {
     word2: string;
     language2: string;
 };
+
+/**
+ * Represents a group of words.
+ *
+ * @prop id - Identification number of a tag
+ * @prop name - Name of a word group
+ */
+export type Tag = {
+  id: number;
+  name: string;
+}
