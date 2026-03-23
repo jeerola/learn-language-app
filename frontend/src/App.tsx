@@ -4,8 +4,8 @@ import "./App.css";
 import { Button, Group } from "@chakra-ui/react";
 import { ColorModeButton } from "./components/ui/color-mode";
 
-import { AdminPage } from "./pages/AdminPage";
-import { UserPage } from "./pages/UserPage";
+import { AdminPage } from "./pages/adminView/AdminPage";
+import { UserPage } from "./pages/userView/UserPage";
 
 function App() {
   const [currentView, setCurrentView] = useState("admin");
@@ -28,7 +28,7 @@ function App() {
         >
           User View
         </Button>
-        <ColorModeButton/>
+        <ColorModeButton />
       </Group>
 
       {currentView === "admin" && <AdminPage />}
