@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
 
     try {
       const result = await pool.query(
-        `INSERT INTO tags (name) VALUES ($1) RETURNING id`,
+        `INSERT INTO tags (name) VALUES ($1) RETURNING id, name`,
         [tagName],
       );
       res.status(201).json(result.rows[0]);
