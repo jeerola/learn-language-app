@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-import { deleteWordPair, getLanguages, getWordPairs } from "../api";
-import { type Language, type WordPair } from "../types";
-import { WordPairForm } from "../components/WordPairForm";
+import { deleteWordPair, getLanguages, getWordPairs } from "../../api";
+import { type Language, type WordPair } from "../../types";
+import { WordPairForm } from "../../components/WordPairForm";
 import { VStack, Heading, Table, Button, Stack } from "@chakra-ui/react";
 
-export const AdminPage = () => {
+export const WordPairsView = () => {
   const [wordPairs, setWordPairs] = useState<WordPair[]>([]);
   const [languages, setLanguages] = useState<Language[]>([]);
   const [editingPair, setEditingPair] = useState<WordPair | null>(null);
