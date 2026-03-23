@@ -1,4 +1,4 @@
-import type { Language, WordPair } from "../types";
+import type { Language, WordPair, Tag } from "../types";
 
 /**
  * Fetches all languages
@@ -81,11 +81,43 @@ export async function updateWordPair(id: number, word1: string, word2: string) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       word1,
-      word2
+      word2,
     }),
   });
 
   const data = (await response.json()) as WordPair;
+
+  return data;
+}
+
+/**
+ * Fetches all tags created
+ *
+ * @returns {Tag[]} - Array with all tags found
+ */
+export async function getTags() {
+  const response = await fetch("/api/tags");
+  const data = (await response.json()) as Tag[];
+
+  return data;
+}
+
+/**
+ * Creates a new tag in database.
+ *
+ * @param tagName - Name of a new tag created
+ * @returns {Promise<Tag>} Created tag object
+ */
+export async function createTag(name: string) {
+  const response = await fetch(`/api/tags/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name
+    }),
+  });
+
+  const data = (await response.json()) as Tag;
 
   return data;
 }
