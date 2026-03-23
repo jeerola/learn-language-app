@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import pool from "./db/pool";
 import languageRouter from "./routes/languageRouter";
 import wordRouter from "./routes/wordRouter";
+import tagRouter from "./routes/tagRouter";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +19,7 @@ app.use(express.json());
 
 app.use("/api/languages", languageRouter);
 app.use("/api/words", wordRouter);
+app.use("/api/tags", tagRouter);
 
 app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
