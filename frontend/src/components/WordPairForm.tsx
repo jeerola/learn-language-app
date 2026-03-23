@@ -1,8 +1,8 @@
 import { useState } from "react";
 import type { Language, WordPair } from "../types";
 import { createWordPair, updateWordPair } from "../api";
-
 import { Button, HStack, Input, NativeSelect, VStack, Text } from "@chakra-ui/react";
+
 interface Props {
   editingPair: WordPair | null;
   languages: Language[];
