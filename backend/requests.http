@@ -32,3 +32,14 @@ Content-Type: application/json
   "word1": "Cat",
   "word2": "Kissa"
 }
+
+### Fetch all tags
+GET http://localhost:3000/api/tags
+
+### Create new tag
+POST http://localhost:3000/api/tags
+Content-Type: application/json
+
+{
+  "name": "Animals"
+}
