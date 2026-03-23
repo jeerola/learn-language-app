@@ -46,7 +46,6 @@ export const AdminPage = () => {
         <WordPairForm
           editingPair={editingPair}
           languages={languages}
-          defaultLanguageId={languages[0].id}
           onWordPairCreated={handleWordPairCreated}
           onWordPairUpdated={handleWordPairUpdated}
         />
