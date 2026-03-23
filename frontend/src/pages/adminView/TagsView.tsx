@@ -27,9 +27,9 @@ export const TagsView = () => {
   };
 
   const handleDelete = async (id: number) => {
-      await deleteTag(id);
-      setTags((current) => current.filter((wp) => wp.id !== id));
-    };
+    await deleteTag(id);
+    setTags((current) => current.filter((wp) => wp.id !== id));
+  };
 
   return (
     <VStack>
@@ -39,6 +39,9 @@ export const TagsView = () => {
           type="text"
           value={tagName}
           onChange={(e) => setTagName(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleTagCreate();
+          }}
         />
 
         <Button
