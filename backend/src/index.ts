@@ -2,10 +2,10 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import pool from "./db/pool";
-import languageRouter from "./routes/languageRouter";
-import wordRouter from "./routes/wordRouter";
-import tagRouter from "./routes/tagRouter";
+import pool from "./db/pool.js";
+import languageRouter from "./routes/languageRouter.js";
+import wordRouter from "./routes/wordRouter.js";
+import tagRouter from "./routes/tagRouter.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

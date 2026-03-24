@@ -1,7 +1,7 @@
 import path from "path";
 import { readFileSync } from "fs";
 
-import pool from "./pool";
+import pool from "./pool.js";
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const sqlPath = path.join(__dirname, "languageData.sql");
