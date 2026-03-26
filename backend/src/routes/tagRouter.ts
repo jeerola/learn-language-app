@@ -1,5 +1,6 @@
 import { Router } from "express";
 import pool from "../db/pool.js";
+import { checkIfAdmin } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -26,7 +27,7 @@ router.get("/", async (req, res) => {
  * "name": "Animals"
  * }
  */
-router.post("/", async (req, res) => {
+router.post("/", checkIfAdmin, async (req, res) => {
     const tagName = req.body.name;
 
     try {
@@ -44,8 +45,8 @@ router.post("/", async (req, res) => {
 /**
  * Deletes a tag from database
  */
-router.delete("/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
+router.delete("/:id", checkIfAdmin, async (req, res) => {
+  const id = parseInt(req.params.id as string);
 
   // Reject request if ID is not a positive integer
   if (isNaN(id) || id <= 0) {

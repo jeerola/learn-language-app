@@ -1,5 +1,6 @@
 import { Router } from "express";
 import pool from "../db/pool.js";
+import { checkIfAdmin } from "../middleware/auth.js";
 
 const router = Router();
 
@@ -52,7 +53,7 @@ router.get("/", async (req, res) => {
  * "language2_id": 2
  * }
  */
-router.post("/", async (req, res) => {
+router.post("/", checkIfAdmin, async (req, res) => {
   const { word1, language1_id, word2, language2_id } = req.body;
 
   // Take single client from pool to ensure all queries share the same connection
@@ -122,8 +123,8 @@ router.post("/", async (req, res) => {
  * "tagId": 1
  * }
  */
-router.post("/:id/tags", async (req, res) => {
-  const wordPairId = parseInt(req.params.id);
+router.post("/:id/tags", checkIfAdmin, async (req, res) => {
+  const wordPairId = parseInt(req.params.id as string);
   const tagId = Number(req.body.tagId);
 
   if (isNaN(wordPairId) || wordPairId <= 0) {
@@ -158,8 +159,8 @@ router.post("/:id/tags", async (req, res) => {
 /**
  * Deletes word pair using its ID.
  */
-router.delete("/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
+router.delete("/:id", checkIfAdmin, async (req, res) => {
+  const id = parseInt(req.params.id as string);
 
   // Reject request if ID is not a positive integer
   if (isNaN(id) || id <= 0) {
@@ -193,8 +194,8 @@ router.delete("/:id", async (req, res) => {
  * "word2": "Kissa"
  * }
  */
-router.put("/:id", async (req, res) => {
-  const id = parseInt(req.params.id);
+router.put("/:id", checkIfAdmin, async (req, res) => {
+  const id = parseInt(req.params.id as string);
 
   // Reject request if ID is not a positive integer
   if (isNaN(id) || id <= 0) {
@@ -275,9 +276,9 @@ router.put("/:id", async (req, res) => {
  * Updates tag in a word pair.
  * Tag can be created, deleted or updated to other tag.
  */
-router.put("/:id/tags", async (req, res) => {
+router.put("/:id/tags", checkIfAdmin, async (req, res) => {
   const tagId = req.body.tagId;
-  const wordPairId = parseInt(req.params.id);
+  const wordPairId = parseInt(req.params.id as string);
 
   if (isNaN(wordPairId) || wordPairId <= 0) {
     res.status(400).json({ error: "Invalid word pair ID" });
