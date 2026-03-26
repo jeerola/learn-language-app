@@ -1,22 +1,25 @@
 import { useEffect, useState } from "react";
 
-import { deleteWordPair, getLanguages, getWordPairs } from "../../api";
-import { type Language, type WordPair } from "../../types";
+import { deleteWordPair, getLanguages, getTags, getWordPairs } from "../../api";
+import { type Language, type Tag, type WordPair } from "../../types";
 import { WordPairForm } from "../../components/WordPairForm";
 import { VStack, Heading, Table, Button, Stack } from "@chakra-ui/react";
 
 export const WordPairsView = () => {
   const [wordPairs, setWordPairs] = useState<WordPair[]>([]);
   const [languages, setLanguages] = useState<Language[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
   const [editingPair, setEditingPair] = useState<WordPair | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       const wordPairData = await getWordPairs();
       const languagesData = await getLanguages();
+      const tagsData = await getTags();
 
       setWordPairs(wordPairData);
       setLanguages(languagesData);
+      setTags(tagsData);
     };
     fetchData();
   }, []);
@@ -46,6 +49,7 @@ export const WordPairsView = () => {
         <WordPairForm
           editingPair={editingPair}
           languages={languages}
+          tags={tags}
           onWordPairCreated={handleWordPairCreated}
           onWordPairUpdated={handleWordPairUpdated}
         />
@@ -59,6 +63,7 @@ export const WordPairsView = () => {
               <Table.ColumnHeader>Language 1</Table.ColumnHeader>
               <Table.ColumnHeader>Word 2</Table.ColumnHeader>
               <Table.ColumnHeader>Language 2</Table.ColumnHeader>
+              <Table.ColumnHeader>Tags</Table.ColumnHeader>
               <Table.ColumnHeader>Actions</Table.ColumnHeader>
             </Table.Row>
           </Table.Header>
@@ -69,6 +74,9 @@ export const WordPairsView = () => {
                 <Table.Cell>{wordPair.language1}</Table.Cell>
                 <Table.Cell>{wordPair.word2}</Table.Cell>
                 <Table.Cell>{wordPair.language2}</Table.Cell>
+                <Table.Cell>{wordPair.tags.map((tag) => (
+                  <span key={tag.id}>{tag.name} </span>
+                ))}</Table.Cell>
                 <Table.Cell>
                   <Button
                     variant={"outline"}
