@@ -101,6 +101,48 @@ router.post("/", async (req, res) => {
 });
 
 /**
+ * Assigns a tag to a word pair.
+ *
+ * @example
+ * Request body:
+ *
+ * {
+ * "tagId": 1
+ * }
+ */
+router.post("/:id/tags", async (req, res) => {
+  const wordPairId = parseInt(req.params.id);
+  const tagId = Number(req.body.tagId);
+
+  if (isNaN(wordPairId) || wordPairId <= 0){
+      res.status(400).json({ error: "Invalid word pair ID" });
+      return;
+  }
+
+  if (isNaN(tagId) || tagId <= 0) {
+    res.status(400).json({ error: "Invalid tag ID" });
+    return;
+  }
+
+  try {
+    await pool.query(
+      `INSERT INTO word_pair_tag (word_pair_id, tag_id)
+       VALUES ($1, $2)
+       ON CONFLICT (word_pair_id, tag_id) DO NOTHING`,
+      [wordPairId, tagId],
+    );
+    res.status(201).send();
+  } catch (error) {
+    if ((error as any).code === "23503") { // Postgre error code for foreign key violation
+      res.status(404).json({ error: "Id not found" })
+    } else {
+    console.error("Error assigning tag to word pair: ", error);
+    res.status(500).json({ error: "Internal server error" });
+    }
+  }
+});
+
+/**
  * Deletes word pair using its ID.
  */
 router.delete("/:id", async (req, res) => {
@@ -160,6 +202,7 @@ router.put("/:id", async (req, res) => {
     );
 
     if (result.rowCount === 0) {
+        await client.query("ROLLBACK");
         res.status(404).json({ error: "Word pair not found."});
         return;
     }
