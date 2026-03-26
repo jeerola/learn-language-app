@@ -113,7 +113,7 @@ export async function createTag(name: string) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      name
+      name,
     }),
   });
 
@@ -145,5 +145,21 @@ export async function assignTagToWordPair(wordPairId: number, tagId: number) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ tagId }),
+  });
+}
+
+/**
+ * Updates a tag in a word pair.
+ *
+ * @param wordPairId - Identification number of a word pair
+ * @param tagId - Identification number of a tag
+ */
+export async function updateTag(wordPairId: number, tagId: number) {
+  await fetch(`/api/words/${wordPairId}/tags`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      tagId,
+    }),
   });
 }
