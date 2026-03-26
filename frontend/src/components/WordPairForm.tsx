@@ -1,11 +1,19 @@
 import { useState } from "react";
-import type { Language, WordPair } from "../types";
-import { createWordPair, updateWordPair } from "../api";
-import { Button, HStack, Input, NativeSelect, VStack, Text } from "@chakra-ui/react";
+import type { Language, WordPair, Tag } from "../types";
+import { assignTagToWordPair, createWordPair, updateWordPair } from "../api";
+import {
+  Button,
+  HStack,
+  Input,
+  NativeSelect,
+  VStack,
+  Text,
+} from "@chakra-ui/react";
 
 interface Props {
   editingPair: WordPair | null;
   languages: Language[];
+  tags: Tag[];
   onWordPairCreated: (wordPair: WordPair) => void;
   onWordPairUpdated: (wordPair: WordPair) => void;
 }
@@ -13,6 +21,7 @@ interface Props {
 export function WordPairForm({
   languages,
   editingPair,
+  tags,
   onWordPairCreated,
   onWordPairUpdated,
 }: Props) {
@@ -20,6 +29,7 @@ export function WordPairForm({
   const [word2, setWord2] = useState(editingPair ? editingPair.word2 : "");
   const [languageId1, setLanguageId1] = useState(languages[0].id);
   const [languageId2, setLanguageId2] = useState(languages[1].id);
+  const [tagId, setTagId] = useState<number>(0);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleSubmit = async () => {
@@ -43,7 +53,21 @@ export function WordPairForm({
         languageId1,
         languageId2,
       );
-      onWordPairCreated(newWordPair);
+
+      if (tagId > 0) {
+        await assignTagToWordPair(newWordPair.id, tagId);
+        const tagToFind = tags.find((item) => item.id === tagId);
+
+        onWordPairCreated({
+          ...newWordPair,
+          tags: tagToFind ? [tagToFind] : [],
+        });
+      } else {
+        onWordPairCreated({
+          ...newWordPair,
+          tags: [],
+        });
+      }
     }
     setErrorMessage("");
   };
@@ -87,6 +111,20 @@ export function WordPairForm({
               {languages.map((language) => (
                 <option key={language.id} value={language.id}>
                   {language.name}
+                </option>
+              ))}
+            </NativeSelect.Field>
+          </NativeSelect.Root>
+
+          <NativeSelect.Root>
+            <NativeSelect.Field
+              value={tagId}
+              onChange={(e) => setTagId(parseInt(e.target.value))}
+            >
+              <option value={0}>None</option>
+              {tags.map((tag) => (
+                <option key={tag.id} value={tag.id}>
+                  {tag.name}
                 </option>
               ))}
             </NativeSelect.Field>
