@@ -11,7 +11,14 @@ export const AdminPage = () => {
 
   return (
     <HStack>
-      <Box left={0} top={"48px"} position={"fixed"} w={"120px"} p={"4"}>
+      <Box
+        left={0}
+        top={"48px"}
+        position={"fixed"}
+        w={"120px"}
+        p={"4"}
+        h={"calc(100vh - 48px)"}
+      >
         <VStack>
           <Button
             variant={"outline"}

@@ -54,7 +54,7 @@ export const WordPairsView = () => {
           onWordPairUpdated={handleWordPairUpdated}
         />
       )}
-      <Stack>
+      <Stack maxH={"calc(100vh - 300px)"} overflowY={"auto"}>
         <Heading>Word pairs</Heading>
         <Table.Root>
           <Table.Header>
@@ -74,9 +74,11 @@ export const WordPairsView = () => {
                 <Table.Cell>{wordPair.language1}</Table.Cell>
                 <Table.Cell>{wordPair.word2}</Table.Cell>
                 <Table.Cell>{wordPair.language2}</Table.Cell>
-                <Table.Cell>{wordPair.tags.map((tag) => (
-                  <span key={tag.id}>{tag.name} </span>
-                ))}</Table.Cell>
+                <Table.Cell>
+                  {wordPair.tags.map((tag) => (
+                    <span key={tag.id}>{tag.name} </span>
+                  ))}
+                </Table.Cell>
                 <Table.Cell>
                   <Button
                     variant={"outline"}
