@@ -133,3 +133,17 @@ export async function deleteTag(id: number) {
     method: "DELETE",
   });
 }
+
+/**
+ * Assigns a tag to a word pair.
+ *
+ * @param wordPairId - Identification number of a word pair
+ * @param tagId - Identification number of a tag
+ */
+export async function assignTagToWordPair(wordPairId: number, tagId: number) {
+  await fetch(`/api/words/${wordPairId}/tags`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ tagId }),
+  });
+}
