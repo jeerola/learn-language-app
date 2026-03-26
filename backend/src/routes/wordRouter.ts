@@ -82,7 +82,8 @@ router.post("/", async (req, res) => {
 
     const id = idResult.rows[0].id;
 
-    const newPairResult = await client.query(`
+    const newPairResult = await client.query(
+      `
       SELECT
           word_pairs.id,
           w1.word AS word1,
@@ -94,7 +95,9 @@ router.post("/", async (req, res) => {
           JOIN words AS w2 ON word_pairs.word_id_2 = w2.id
           JOIN languages AS l1 ON w1.language_id = l1.id
           JOIN languages AS l2 ON w2.language_id = l2.id
-      WHERE word_pairs.id = $1`, [id]);
+      WHERE word_pairs.id = $1`,
+      [id],
+    );
 
     await client.query("COMMIT");
     res.status(201).json(newPairResult.rows[0]);
@@ -123,9 +126,9 @@ router.post("/:id/tags", async (req, res) => {
   const wordPairId = parseInt(req.params.id);
   const tagId = Number(req.body.tagId);
 
-  if (isNaN(wordPairId) || wordPairId <= 0){
-      res.status(400).json({ error: "Invalid word pair ID" });
-      return;
+  if (isNaN(wordPairId) || wordPairId <= 0) {
+    res.status(400).json({ error: "Invalid word pair ID" });
+    return;
   }
 
   if (isNaN(tagId) || tagId <= 0) {
@@ -142,11 +145,12 @@ router.post("/:id/tags", async (req, res) => {
     );
     res.status(201).send();
   } catch (error) {
-    if ((error as any).code === "23503") { // Postgre error code for foreign key violation
-      res.status(404).json({ error: "Id not found" })
+    if ((error as any).code === "23503") {
+      // Postgre error code for foreign key violation
+      res.status(404).json({ error: "Id not found" });
     } else {
-    console.error("Error assigning tag to word pair: ", error);
-    res.status(500).json({ error: "Internal server error" });
+      console.error("Error assigning tag to word pair: ", error);
+      res.status(500).json({ error: "Internal server error" });
     }
   }
 });
@@ -211,9 +215,9 @@ router.put("/:id", async (req, res) => {
     );
 
     if (result.rowCount === 0) {
-        await client.query("ROLLBACK");
-        res.status(404).json({ error: "Word pair not found."});
-        return;
+      await client.query("ROLLBACK");
+      res.status(404).json({ error: "Word pair not found." });
+      return;
     }
 
     const word_id_1 = result.rows[0].word_id_1;
@@ -231,18 +235,27 @@ router.put("/:id", async (req, res) => {
 
     const updatedPairResult = await client.query(
       `
-      SELECT
-          word_pairs.id,
-          w1.word AS word1,
-          l1.name AS language1,
-          w2.word AS word2,
-          l2.name AS language2
-      FROM word_pairs
-          JOIN words AS w1 ON word_pairs.word_id_1 = w1.id
-          JOIN words AS w2 ON word_pairs.word_id_2 = w2.id
-          JOIN languages AS l1 ON w1.language_id = l1.id
-          JOIN languages AS l2 ON w2.language_id = l2.id
-      WHERE word_pairs.id = $1`,
+              SELECT
+            word_pairs.id,
+            w1.word AS word1,
+            l1.name AS language1,
+            w2.word AS word2,
+            l2.name AS language2,
+            COALESCE(
+                json_agg(
+                    jsonb_build_object('id', t.id, 'name', t.name)
+                ) FILTER (WHERE t.id IS NOT NULL),
+                '[]'::json
+            ) AS tags
+        FROM word_pairs
+            JOIN words AS w1 ON word_pairs.word_id_1 = w1.id
+            JOIN words AS w2 ON word_pairs.word_id_2 = w2.id
+            JOIN languages AS l1 ON w1.language_id = l1.id
+            JOIN languages AS l2 ON w2.language_id = l2.id
+            LEFT JOIN word_pair_tag AS wpt ON word_pairs.id = wpt.word_pair_id
+            LEFT JOIN tags AS t ON wpt.tag_id = t.id
+            WHERE word_pairs.id = $1
+        GROUP BY word_pairs.id, w1.word, l1.name, w2.word, l2.name`,
       [id],
     );
 
@@ -255,6 +268,47 @@ router.put("/:id", async (req, res) => {
   } finally {
     // Always return the client back to pool, regardless of success or failure
     client.release();
+  }
+});
+
+/**
+ * Updates tag in a word pair.
+ * Tag can be created, deleted or updated to other tag.
+ */
+router.put("/:id/tags", async (req, res) => {
+  const tagId = req.body.tagId;
+  const wordPairId = parseInt(req.params.id);
+
+  if (isNaN(wordPairId) || wordPairId <= 0) {
+    res.status(400).json({ error: "Invalid word pair ID" });
+    return;
+  }
+
+  if (isNaN(tagId) || tagId < 0) {
+    res.status(400).json({ error: "Invalid ID" });
+    return;
+  }
+
+  try {
+    if (tagId === 0 || tagId === null) {
+      await pool.query(`DELETE from word_pair_tag WHERE word_pair_id = $1`, [
+        wordPairId,
+      ]);
+      res.status(200).send();
+    } else {
+      await pool.query(`DELETE FROM word_pair_tag WHERE word_pair_id = $1`, [
+        wordPairId,
+      ]);
+      await pool.query(
+        `INSERT INTO word_pair_tag (word_pair_id, tag_id)
+       VALUES ($1, $2)`,
+        [wordPairId, tagId],
+      );
+      res.status(200).send();
+    }
+  } catch (error) {
+    console.error("Error updating tags:", error);
+    res.status(500).json({ error: "Internal server error." });
   }
 });
 
