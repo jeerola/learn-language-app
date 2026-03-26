@@ -1,6 +1,11 @@
 import { useState } from "react";
 import type { Language, WordPair, Tag } from "../types";
-import { assignTagToWordPair, createWordPair, updateWordPair } from "../api";
+import {
+  assignTagToWordPair,
+  createWordPair,
+  updateWordPair,
+  updateTag,
+} from "../api";
 import {
   Button,
   HStack,
@@ -44,6 +49,7 @@ export function WordPairForm({
     }
 
     if (editingPair != null) {
+      await updateTag(editingPair.id, tagId);
       const updatedPair = await updateWordPair(editingPair.id, word1, word2);
       onWordPairUpdated(updatedPair);
     } else {
