@@ -15,12 +15,21 @@ router.get("/", async (req, res) => {
             w1.word AS word1,
             l1.name AS language1,
             w2.word AS word2,
-            l2.name AS language2
+            l2.name AS language2,
+            COALESCE(
+                json_agg(
+                    jsonb_build_object('id', t.id, 'name', t.name)
+                ) FILTER (WHERE t.id IS NOT NULL),
+                '[]'::json
+            ) AS tags
         FROM word_pairs
             JOIN words AS w1 ON word_pairs.word_id_1 = w1.id
             JOIN words AS w2 ON word_pairs.word_id_2 = w2.id
             JOIN languages AS l1 ON w1.language_id = l1.id
-            JOIN languages AS l2 ON w2.language_id = l2.id`);
+            JOIN languages AS l2 ON w2.language_id = l2.id
+            LEFT JOIN word_pair_tag AS wpt ON word_pairs.id = wpt.word_pair_id
+            LEFT JOIN tags AS t ON wpt.tag_id = t.id
+        GROUP BY word_pairs.id, w1.word, l1.name, w2.word, l2.name`);
     res.json(result.rows);
   } catch (error) {
     console.error("Error fetching word pairs: ", error);
