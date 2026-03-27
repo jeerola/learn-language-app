@@ -40,3 +40,16 @@ export type WordPair = {
     language2: string;
     tags: Tag[];
 };
+
+/**
+ * Represents a registered user.
+ *
+ * @prop id - Identification number of a user
+ * @prop username - User's username
+ * @prop role - User's role (admin/ regular user)
+ */
+export type User = {
+  id: number;
+  username: string;
+  role: string;
+}
