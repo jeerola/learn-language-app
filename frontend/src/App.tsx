@@ -6,9 +6,13 @@ import { ColorModeButton } from "./components/ui/color-mode";
 
 import { AdminPage } from "./pages/adminView/AdminPage";
 import { UserPage } from "./pages/userView/UserPage";
+import { LoginModal } from "./components/LoginModal";
+
+import {type User} from "@/types";
 
 function App() {
-  const [currentView, setCurrentView] = useState("admin");
+  const [currentView, setCurrentView] = useState("user");
+  const [user, setUser] = useState<User | null>(null);
 
   return (
     <div>
@@ -18,6 +22,7 @@ function App() {
             variant={"outline"}
             colorPalette={"green"}
             onClick={() => setCurrentView("admin")}
+            disabled={user?.role !== "admin"}
           >
             Admin View
           </Button>
@@ -29,6 +34,7 @@ function App() {
           >
             User View
           </Button>
+          <LoginModal setUser={setUser} user={user} />
           <ColorModeButton />
         </Group>
       </Box>
