@@ -163,3 +163,33 @@ export async function updateTag(wordPairId: number, tagId: number) {
     }),
   });
 }
+
+/**
+ * Sends a login request with user provided name and password.
+ *
+ * @param username - Username to login with
+ * @param password - Password to login with
+ * @param return - User identification number, username and role in JSON format.
+ */
+export async function logIn(username: string, password: string) {
+  const response = await fetch(`/api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  } else {
+    throw new Error("Invalid credentials");
+  }
+}
+
+/**
+ * Sends a simple log out request to api
+ */
+export async function logOut() {
+  await fetch(`/api/auth/logout`, {
+    method: "POST"
+  });
+}
