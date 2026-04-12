@@ -36,7 +36,9 @@ Live Demo: [https://learn-language-app.onrender.com](https://learn-language-app.
 - Create, read, update and delete word pairs.
 - Create, read and delete tags (groups).
 - Admin users can manage all word pairs and tags, while regular users can only view them.
+- Filter word pairs as a user by tags to practice on specific groups of words.
 - Practice mode to test your knowledge of the word pairs.
+- Wrong answer review after practice sessions to help you learn from your mistakes.
 - Score tracking to keep track of your points in practice mode.
 
 ## How to run it
@@ -59,11 +61,10 @@ Pre-requisites:
 
 ## Known Issues
 
-- Every user can currently manage all word pairs and tags, every user has admin privileges.
+- Nothing major at the moment, but there may be some minor bugs.
 
 ## Future Improvements
 
-- Implement user authentication and authorization to allow users to have either admin or regular user roles, with different permissions for managing word pairs and tags.
 - Implement testing for both frontend and backend to ensure code quality and reliability.
 - Mobile responsiveness and design improvements for better user experience on different devices.
 
@@ -72,13 +73,17 @@ Pre-requisites:
 | Method | Endpoint | Description | Success Status Codes | Error Status Codes |
 | --- | --- | --- | --- | --- |
 | GET | /api/languages | Get all available languages | 200 OK | 500 Internal Server Error |
-| GET | /api/words | Get all word pairs | 200 OK | 404 Not Found, 500 Internal Server Error |
+| GET | /api/words | Get all word pairs | 200 OK | 500 Internal Server Error |
 | POST | /api/words | Create a new word pair | 201 Created | 400 Bad Request |
 | PUT | /api/words/:id | Update a specific word pair | 200 OK | 400 Bad Request, 404 Not Found, 500 Internal Server Error |
 | DELETE | /api/words/:id | Delete a specific word pair | 204 No Content | 404 Not Found, 500 Internal Server Error |
 | GET | /api/tags | Get all tags | 200 OK | 500 Internal Server Error |
 | POST | /api/tags | Create a new tag | 201 Created | 400 Bad Request |
 | DELETE | /api/tags/:id | Delete a specific tag | 204 No Content | 404 Not Found, 500 Internal Server Error |
+| POST | /api/words/:id/tags | Add a tag to a word pair | 201 Created | 400 Bad Request, 404 Not Found, 500 Internal Server Error |
+| PUT | /api/words/:id/tags | Update tags for a word pair | 200 OK | 400 Bad Request, 404 Not Found, 500 Internal Server Error |
+| POST | /api/auth/login | Login a user, sets session cookie | 200 OK | 400 Bad Request, 401 Unauthorized |
+| POST | /api/auth/logout | Logout a user, destroys session cookie | 200 OK | 400 Bad Request, 401 Unauthorized |
 
 ### GET /api/languages - Example response body
 
@@ -106,14 +111,21 @@ Pre-requisites:
         "word1": "Dog",
         "language1": "English",
         "word2": "Koira",
-        "language2": "Finnish"
+        "language2": "Finnish",
+        "tags": [
+            {
+                "id": 1,
+                "name": "Animals"
+            }
+        ]
     },
     {
         "id": 2,
         "word1": "Cat",
         "language1": "English",
         "word2": "Kissa",
-        "language2": "Finnish"
+        "language2": "Finnish",
+        "tags": []
     }
 ]
 ```
@@ -191,5 +203,38 @@ Pre-requisites:
 {
     "id": 1,
     "name": "Animals"
+}
+```
+
+### POST /api/words/:id/tags - Example request body when assigning a tag to a word pair
+
+```json
+{
+  "tagId": 6
+}
+```
+
+### PUT /api/words/:id/tags - Example request body
+
+```json
+{
+    "tagId": 1
+}
+```
+
+### POST /api/auth/login - Example request body to login a user
+
+```json
+{
+  "username": "admin",
+  "password": "password123"
+}
+```
+
+### POST /api/auth/logout - Example response body after successful logout
+
+```json
+{
+    "message": "Logged out successfully"
 }
 ```
