@@ -26,9 +26,11 @@ export const UserPage = () => {
   const [view, setView] = useState<"landing" | "practice">("landing");
   const [wrongAnswers, setWrongAnswers] = useState<WordPair[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [direction, setDirection] = useState<"normal" | "reversed">("normal");
 
-  const handleTagSelect = (tag: Tag | null) => {
+  const handleTagSelect = (tag: Tag | null, direction: "normal" | "reversed") => {
     setSelectedTag(tag);
+    setDirection(direction);
     setView("practice");
   };
 
@@ -49,13 +51,17 @@ export const UserPage = () => {
     setWrongAnswers([]);
     setIsOpen(false);
     setPreviousAnswerCorrect(null);
+    setDirection("normal")
     setView("landing");
   };
 
   const handleSubmit = () => {
     const isCorrect =
       userInput.toLowerCase() ===
-      wordPairs[currentWordPair].word2.toLowerCase();
+      (direction === "normal"
+        ? wordPairs[currentWordPair].word2
+        : wordPairs[currentWordPair].word1
+      ).toLowerCase();
 
     const finalScore = isCorrect ? score + 1 : score;
 
@@ -98,7 +104,9 @@ export const UserPage = () => {
 
   return (
     <>
-      {view === "landing" && <UserLanding onTagSelect={handleTagSelect} wordPairs={wordPairs} />}
+      {view === "landing" && (
+        <UserLanding onTagSelect={handleTagSelect} wordPairs={wordPairs} />
+      )}
       {view === "practice" && (
         <VStack mx={"auto"} gap={"4"}>
           <Heading size={"3xl"}>Practice!</Heading>
@@ -110,7 +118,11 @@ export const UserPage = () => {
             </Card.Header>
             <Card.Body textAlign="center">
               {wordPairs.length > 0 && (
-                <p>{wordPairs[currentWordPair]?.word1}</p>
+                <p>
+                  {direction === "normal"
+                    ? wordPairs[currentWordPair]?.word1
+                    : wordPairs[currentWordPair]?.word2}
+                </p>
               )}
             </Card.Body>
           </Card.Root>
