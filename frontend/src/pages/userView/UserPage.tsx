@@ -42,7 +42,6 @@ export const UserPage = () => {
   };
 
   const handleBack = () => {
-    setWordPairs([]);
     setUserInput("");
     setScore(0);
     setCurrentWordPair(0);
