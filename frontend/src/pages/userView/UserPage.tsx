@@ -7,6 +7,8 @@ import {
   Button,
   VStack,
   Text,
+  Dialog,
+  Portal,
 } from "@chakra-ui/react";
 import { type WordPair, type Tag } from "../../types";
 import { getWordPairs } from "../../api";
@@ -22,20 +24,33 @@ export const UserPage = () => {
   >(null);
   const [selectedTag, setSelectedTag] = useState<Tag | null>(null);
   const [view, setView] = useState<"landing" | "practice">("landing");
+  const [wrongAnswers, setWrongAnswers] = useState<WordPair[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleTagSelect = (tag: Tag | null) => {
     setSelectedTag(tag);
     setView("practice");
   };
 
+  const handleRestart = () => {
+    setScore(0);
+    setUserInput("");
+    setCurrentWordPair(0);
+    setPreviousAnswerCorrect(null);
+    setWrongAnswers([]);
+    setIsOpen(false);
+  };
+
   const handleBack = () => {
-    setWordPairs([])
-    setUserInput("")
+    setWordPairs([]);
+    setUserInput("");
     setScore(0);
     setCurrentWordPair(0);
     setSelectedTag(null);
+    setWrongAnswers([]);
+    setIsOpen(false);
     setView("landing");
-  }
+  };
 
   const handleSubmit = () => {
     const isCorrect =
@@ -46,12 +61,14 @@ export const UserPage = () => {
 
     if (isCorrect) {
       setScore(finalScore);
+    } else {
+      setWrongAnswers([...wrongAnswers, wordPairs[currentWordPair]]);
     }
 
     if (currentWordPair < wordPairs.length - 1) {
       setCurrentWordPair((current) => current + 1);
     } else {
-      alert(`You scored ${finalScore} out of ${wordPairs.length} points!`);
+      setIsOpen(true);
     }
     setUserInput("");
     setPreviousAnswerCorrect(isCorrect);
@@ -103,6 +120,7 @@ export const UserPage = () => {
               variant={"outline"}
               type="text"
               value={userInput}
+              disabled={isOpen}
               onChange={(e) => setUserInput(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") handleSubmit();
@@ -111,6 +129,7 @@ export const UserPage = () => {
             <Button
               variant={"outline"}
               colorPalette={"yellow"}
+              disabled={isOpen}
               onClick={() => handleSubmit()}
             >
               Submit
@@ -130,6 +149,55 @@ export const UserPage = () => {
           </Button>
         </VStack>
       )}
+      <Dialog.Root
+        open={isOpen}
+        onOpenChange={(details) => setIsOpen(details.open)}
+        closeOnInteractOutside={false}
+      >
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content>
+              <Dialog.Header>Game over!</Dialog.Header>
+              <Dialog.Body>
+                <VStack align={"start"}>
+                  <Text fontWeight={"bold"} fontSize={"xl"}>
+                    Score: {score} / {wordPairs.length} (
+                    {Math.round((score * 100) / wordPairs.length)}%)
+                  </Text>
+                  {wrongAnswers.length > 0 && (
+                    <>
+                      <Text fontWeight={"bold"}>Wrong answers:</Text>
+                      {wrongAnswers.map((wordpair) => (
+                        <Text key={wordpair.id}>
+                          {wordpair.word1} → {wordpair.word2}
+                        </Text>
+                      ))}
+                    </>
+                  )}
+                </VStack>
+              </Dialog.Body>
+              <Dialog.Footer>
+                <Button
+                  variant="outline"
+                  colorPalette={"green"}
+                  onClick={() => handleRestart()}
+                >
+                  Play again
+                </Button>
+                <Button
+                  variant="outline"
+                  colorPalette={"purple"}
+                  onClick={() => handleBack()}
+                >
+                  {" "}
+                  Menu{" "}
+                </Button>
+              </Dialog.Footer>
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     </>
   );
 };
