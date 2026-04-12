@@ -49,6 +49,7 @@ export const UserPage = () => {
     setSelectedTag(null);
     setWrongAnswers([]);
     setIsOpen(false);
+    setPreviousAnswerCorrect(null);
     setView("landing");
   };
 
