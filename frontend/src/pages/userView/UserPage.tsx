@@ -99,7 +99,7 @@ export const UserPage = () => {
 
   return (
     <>
-      {view === "landing" && <UserLanding onTagSelect={handleTagSelect} />}
+      {view === "landing" && <UserLanding onTagSelect={handleTagSelect} wordPairs={wordPairs} />}
       {view === "practice" && (
         <VStack mx={"auto"} gap={"4"}>
           <Heading size={"3xl"}>Practice!</Heading>
