@@ -1,4 +1,4 @@
-INSERT INTO languages (name, code) VALUES
-    ('Finnish', 'fi'),
-    ('English', 'en')
+INSERT INTO languages (name) VALUES
+    ('Finnish'),
+    ('English')
     ON CONFLICT DO NOTHING;
