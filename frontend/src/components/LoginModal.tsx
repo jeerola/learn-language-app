@@ -45,7 +45,6 @@ export const LoginModal = ({ setUser, user }: Props) => {
     >
       {user ? (
         <>
-          <Text>Hello, {user.username}!</Text>
           <Button
             variant={"solid"}
             colorPalette={"orange"}
@@ -54,13 +53,15 @@ export const LoginModal = ({ setUser, user }: Props) => {
           >
             LOG OUT
           </Button>
+          <Text>Hello, {user.username}!</Text>
         </>
       ) : (
         <Button
-            variant={"solid"}
-            size={"sm"}
-            colorPalette={"orange"}
-            onClick={() => setIsOpen(true)}>
+          variant={"solid"}
+          size={"sm"}
+          colorPalette={"orange"}
+          onClick={() => setIsOpen(true)}
+        >
           LOG IN
         </Button>
       )}
