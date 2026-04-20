@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./App.css";
 
 import { Button, Group, Box } from "@chakra-ui/react";
-import { ColorModeButton } from "./components/ui/color-mode";
 
 import { AdminPage } from "./pages/adminView/AdminPage";
 import { UserPage } from "./pages/userView/UserPage";
@@ -19,7 +18,7 @@ function App() {
       <Box position={"fixed"} w={"100%"} h={"48px"}>
         <Group>
           <Button
-            variant={"outline"}
+            variant={"solid"}
             colorPalette={"green"}
             onClick={() => setCurrentView("admin")}
             disabled={user?.role !== "admin"}
@@ -28,14 +27,13 @@ function App() {
           </Button>
 
           <Button
-            variant={"outline"}
+            variant={"solid"}
             colorPalette={"red"}
             onClick={() => setCurrentView("user")}
           >
             User View
           </Button>
           <LoginModal setUser={setUser} user={user} />
-          <ColorModeButton />
         </Group>
       </Box>
       <Box paddingTop={"48px"}>
