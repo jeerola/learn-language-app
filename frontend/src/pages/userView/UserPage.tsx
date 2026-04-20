@@ -28,7 +28,10 @@ export const UserPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [direction, setDirection] = useState<"normal" | "reversed">("normal");
 
-  const handleTagSelect = (tag: Tag | null, direction: "normal" | "reversed") => {
+  const handleTagSelect = (
+    tag: Tag | null,
+    direction: "normal" | "reversed",
+  ) => {
     setSelectedTag(tag);
     setDirection(direction);
     setView("practice");
@@ -51,7 +54,7 @@ export const UserPage = () => {
     setWrongAnswers([]);
     setIsOpen(false);
     setPreviousAnswerCorrect(null);
-    setDirection("normal")
+    setDirection("normal");
     setView("landing");
   };
 
@@ -137,7 +140,8 @@ export const UserPage = () => {
             <Input
               variant={"outline"}
               type="text"
-              color={"#1a1a1a"}
+              bg={"whiteAlpha.300"}
+              color={"black"}
               value={userInput}
               disabled={isOpen}
               onChange={(e) => setUserInput(e.target.value)}
@@ -147,7 +151,7 @@ export const UserPage = () => {
             />
             <Button
               variant={"solid"}
-              colorPalette={"yellow"}
+              colorPalette={"green"}
               disabled={isOpen}
               onClick={() => handleSubmit()}
             >
@@ -161,7 +165,7 @@ export const UserPage = () => {
           )}
           <Button
             variant={"solid"}
-            colorPalette={"yellow"}
+            colorPalette={"red"}
             onClick={() => handleBack()}
           >
             Back
@@ -176,8 +180,15 @@ export const UserPage = () => {
         <Portal>
           <Dialog.Backdrop />
           <Dialog.Positioner>
-            <Dialog.Content>
-              <Dialog.Header>Game over!</Dialog.Header>
+            <Dialog.Content
+              color={"black"}
+              bg={"#ffb7c3"}
+              overflow="hidden"
+              borderRadius="md"
+            >
+              <Dialog.Header justifyContent={"center"} fontWeight={"bold"}>
+                Game over!
+              </Dialog.Header>
               <Dialog.Body>
                 <VStack align={"start"}>
                   <Text fontWeight={"bold"} fontSize={"xl"}>
@@ -196,21 +207,20 @@ export const UserPage = () => {
                   )}
                 </VStack>
               </Dialog.Body>
-              <Dialog.Footer>
+              <Dialog.Footer justifyContent={"center"}>
                 <Button
                   variant="solid"
                   colorPalette={"green"}
                   onClick={() => handleRestart()}
                 >
-                  Play again
+                  Play again!
                 </Button>
                 <Button
                   variant="solid"
-                  colorPalette={"purple"}
+                  colorPalette={"red"}
                   onClick={() => handleBack()}
                 >
-                  {" "}
-                  Menu{" "}
+                  Menu
                 </Button>
               </Dialog.Footer>
             </Dialog.Content>
