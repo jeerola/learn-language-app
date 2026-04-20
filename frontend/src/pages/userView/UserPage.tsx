@@ -110,7 +110,13 @@ export const UserPage = () => {
       {view === "practice" && (
         <VStack mx={"auto"} gap={"4"}>
           <Heading size={"3xl"}>Practice!</Heading>
-          <Card.Root w={"sm"} maxW={"sm"} mx={"auto"}>
+          <Card.Root
+            bg={"#ffb7c3"}
+            color={"#1a1a1a"}
+            w={"sm"}
+            maxW={"sm"}
+            mx={"auto"}
+          >
             <Card.Header textAlign="center">
               Word: {currentWordPair + 1} / {wordPairs.length}
               <br />
@@ -131,6 +137,7 @@ export const UserPage = () => {
             <Input
               variant={"outline"}
               type="text"
+              color={"#1a1a1a"}
               value={userInput}
               disabled={isOpen}
               onChange={(e) => setUserInput(e.target.value)}
@@ -139,7 +146,7 @@ export const UserPage = () => {
               }}
             />
             <Button
-              variant={"outline"}
+              variant={"solid"}
               colorPalette={"yellow"}
               disabled={isOpen}
               onClick={() => handleSubmit()}
@@ -153,7 +160,7 @@ export const UserPage = () => {
             </Text>
           )}
           <Button
-            variant={"outline"}
+            variant={"solid"}
             colorPalette={"yellow"}
             onClick={() => handleBack()}
           >
@@ -191,14 +198,14 @@ export const UserPage = () => {
               </Dialog.Body>
               <Dialog.Footer>
                 <Button
-                  variant="outline"
+                  variant="solid"
                   colorPalette={"green"}
                   onClick={() => handleRestart()}
                 >
                   Play again
                 </Button>
                 <Button
-                  variant="outline"
+                  variant="solid"
                   colorPalette={"purple"}
                   onClick={() => handleBack()}
                 >

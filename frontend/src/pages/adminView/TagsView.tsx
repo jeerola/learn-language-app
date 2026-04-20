@@ -46,7 +46,7 @@ export const TagsView = () => {
 
         <Button
           onClick={() => handleTagCreate()}
-          variant={"outline"}
+          variant={"solid"}
           colorPalette={"green"}
         >
           Add group
@@ -68,7 +68,7 @@ export const TagsView = () => {
               <Table.Cell>{tag.name}</Table.Cell>
               <Table.Cell>
                 <Button
-                  variant={"outline"}
+                  variant={"solid"}
                   colorPalette={"red"}
                   onClick={() => handleDelete(tag.id)}
                 >

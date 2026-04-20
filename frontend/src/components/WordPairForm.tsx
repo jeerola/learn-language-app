@@ -139,7 +139,7 @@ export function WordPairForm({
       </form>
 
       <Button
-        variant={"outline"}
+        variant={"solid"}
         colorPalette={editingPair ? "blue" : "green"}
         onClick={() => handleSubmit()}
       >

@@ -81,14 +81,14 @@ export const WordPairsView = () => {
                 </Table.Cell>
                 <Table.Cell>
                   <Button
-                    variant={"outline"}
+                    variant={"solid"}
                     colorPalette={"yellow"}
                     onClick={() => setEditingPair(wordPair)}
                   >
                     EDIT
                   </Button>
                   <Button
-                    variant={"outline"}
+                    variant={"solid"}
                     colorPalette={"red"}
                     onClick={() => handleDelete(wordPair.id)}
                   >

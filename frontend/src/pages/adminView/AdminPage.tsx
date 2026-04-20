@@ -21,7 +21,7 @@ export const AdminPage = () => {
       >
         <VStack>
           <Button
-            variant={"outline"}
+            variant={"solid"}
             colorPalette={"blue"}
             w={"100%"}
             onClick={() => setCurrentView("home")}
@@ -29,7 +29,7 @@ export const AdminPage = () => {
             Home
           </Button>
           <Button
-            variant={"outline"}
+            variant={"solid"}
             colorPalette={"blue"}
             w={"100%"}
             onClick={() => setCurrentView("words")}
@@ -37,7 +37,7 @@ export const AdminPage = () => {
             Words
           </Button>
           <Button
-            variant={"outline"}
+            variant={"solid"}
             colorPalette={"blue"}
             w={"100%"}
             onClick={() => setCurrentView("tags")}

@@ -47,7 +47,7 @@ export const LoginModal = ({ setUser, user }: Props) => {
         <>
           <Text>Hello, {user.username}!</Text>
           <Button
-            variant={"outline"}
+            variant={"solid"}
             colorPalette={"orange"}
             size={"sm"}
             onClick={() => handleLogOut()}
@@ -57,7 +57,7 @@ export const LoginModal = ({ setUser, user }: Props) => {
         </>
       ) : (
         <Button
-            variant={"outline"}
+            variant={"solid"}
             size={"sm"}
             colorPalette={"orange"}
             onClick={() => setIsOpen(true)}>
@@ -89,10 +89,10 @@ export const LoginModal = ({ setUser, user }: Props) => {
               {errorMessage && <Text color={"red"}>{errorMessage}</Text>}
             </Dialog.Body>
             <Dialog.Footer>
-              <Button variant="outline" onClick={handleLogIn}>
+              <Button variant="solid" onClick={handleLogIn}>
                 Login
               </Button>
-              <Button variant="outline" onClick={() => setIsOpen(false)}>
+              <Button variant="solid" onClick={() => setIsOpen(false)}>
                 Cancel
               </Button>
             </Dialog.Footer>

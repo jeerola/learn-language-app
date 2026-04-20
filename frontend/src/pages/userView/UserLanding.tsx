@@ -41,11 +41,22 @@ export const UserLanding = ({ onTagSelect, wordPairs }: Props) => {
       </Button>
 
       <Heading> Tags </Heading>
-      <Card.Root onClick={() => onTagSelect(null, direction)}>
+      <Card.Root
+        cursor={"pointer"}
+        bg={"#ffb7c3"}
+        color={"#1a1a1a"}
+        onClick={() => onTagSelect(null, direction)}
+      >
         <Card.Body textAlign={"center"}> All words</Card.Body>
       </Card.Root>
       {tagsWithWords.map((tag) => (
-        <Card.Root key={tag.id} onClick={() => onTagSelect(tag, direction)}>
+        <Card.Root
+          bg={"#ffb7c3"}
+          color={"#1a1a1a"}
+          key={tag.id}
+          cursor={"pointer"}
+          onClick={() => onTagSelect(tag, direction)}
+        >
           <Card.Body textAlign={"center"}>{tag.name}</Card.Body>
         </Card.Root>
       ))}
