@@ -83,13 +83,18 @@ export function WordPairForm({
       <form action="">
         <HStack>
           <Input
+            bg={"whiteAlpha.200"}
             placeholder="Word 1"
             type="text"
             value={word1}
             onChange={(e) => setWord1(e.target.value)}
           />
 
-          <NativeSelect.Root>
+          <NativeSelect.Root
+            bg={"whiteAlpha.200"}
+            overflow="hidden"
+            borderRadius={"sm"}
+          >
             <NativeSelect.Field
               value={languageId1}
               onChange={(e) => setLanguageId1(parseInt(e.target.value))}
@@ -103,13 +108,18 @@ export function WordPairForm({
           </NativeSelect.Root>
 
           <Input
+            bg={"whiteAlpha.200"}
             placeholder="Word 2"
             type="text"
             value={word2}
             onChange={(e) => setWord2(e.target.value)}
           />
 
-          <NativeSelect.Root>
+          <NativeSelect.Root
+            bg={"whiteAlpha.200"}
+            overflow="hidden"
+            borderRadius={"sm"}
+          >
             <NativeSelect.Field
               value={languageId2}
               onChange={(e) => setLanguageId2(parseInt(e.target.value))}
@@ -122,7 +132,11 @@ export function WordPairForm({
             </NativeSelect.Field>
           </NativeSelect.Root>
 
-          <NativeSelect.Root>
+          <NativeSelect.Root
+            bg={"whiteAlpha.200"}
+            overflow="hidden"
+            borderRadius={"sm"}
+          >
             <NativeSelect.Field
               value={tagId}
               onChange={(e) => setTagId(parseInt(e.target.value))}
