@@ -55,10 +55,7 @@ export const WordPairsView = () => {
         />
       )}
       <Stack maxH={"calc(100vh - 300px)"} overflowY={"auto"}>
-        <Table.Root
-          borderRadius="md"
-          overflow="hidden"
-        >
+        <Table.Root borderRadius="md" overflow="hidden">
           <Table.Header>
             <Table.Row bg={"whiteAlpha.100"}>
               <Table.ColumnHeader>Word 1</Table.ColumnHeader>
@@ -85,10 +82,12 @@ export const WordPairsView = () => {
                   <Button
                     variant={"solid"}
                     colorPalette={"yellow"}
+                    mb={2}
                     onClick={() => setEditingPair(wordPair)}
                   >
                     EDIT
                   </Button>
+
                   <Button
                     variant={"solid"}
                     colorPalette={"red"}
