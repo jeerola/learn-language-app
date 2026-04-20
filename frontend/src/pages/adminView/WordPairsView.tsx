@@ -55,10 +55,12 @@ export const WordPairsView = () => {
         />
       )}
       <Stack maxH={"calc(100vh - 300px)"} overflowY={"auto"}>
-        <Heading>Word pairs</Heading>
-        <Table.Root>
+        <Table.Root
+          borderRadius="md"
+          overflow="hidden"
+        >
           <Table.Header>
-            <Table.Row>
+            <Table.Row bg={"whiteAlpha.100"}>
               <Table.ColumnHeader>Word 1</Table.ColumnHeader>
               <Table.ColumnHeader>Language 1</Table.ColumnHeader>
               <Table.ColumnHeader>Word 2</Table.ColumnHeader>
@@ -69,7 +71,7 @@ export const WordPairsView = () => {
           </Table.Header>
           <Table.Body>
             {wordPairs.map((wordPair) => (
-              <Table.Row key={wordPair.id}>
+              <Table.Row bg={"whiteAlpha.100"} key={wordPair.id}>
                 <Table.Cell>{wordPair.word1}</Table.Cell>
                 <Table.Cell>{wordPair.language1}</Table.Cell>
                 <Table.Cell>{wordPair.word2}</Table.Cell>

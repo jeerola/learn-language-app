@@ -53,9 +53,9 @@ export const TagsView = () => {
         </Button>
       </Group>
 
-      <Table.Root>
+      <Table.Root borderRadius="md" overflow="hidden">
         <Table.Header>
-          <Table.Row>
+          <Table.Row bg={"whiteAlpha.100"}>
             <Table.ColumnHeader>Tag ID</Table.ColumnHeader>
             <Table.ColumnHeader>Tag Name</Table.ColumnHeader>
             <Table.ColumnHeader>Actions</Table.ColumnHeader>
@@ -63,7 +63,7 @@ export const TagsView = () => {
         </Table.Header>
         <Table.Body>
           {tags.map((tag) => (
-            <Table.Row key={tag.id}>
+            <Table.Row bg={"whiteAlpha.100"} key={tag.id}>
               <Table.Cell>{tag.id}</Table.Cell>
               <Table.Cell>{tag.name}</Table.Cell>
               <Table.Cell>
