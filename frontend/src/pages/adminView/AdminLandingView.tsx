@@ -23,17 +23,32 @@ export const AdminLandingView = () => {
 
       return (
         <HStack>
-          <Stat.Root border={"1px solid"} borderRadius={"md"} p={"4"}>
+          <Stat.Root
+            bg={"blackAlpha.300"}
+            border={"1px solid"}
+            borderRadius={"md"}
+            p={"4"}
+          >
             <Stat.Label>Word pairs</Stat.Label>
             <Stat.ValueText>{wordPairs.length}</Stat.ValueText>
           </Stat.Root>
 
-          <Stat.Root border={"1px solid"} borderRadius={"md"} p={"4"}>
+          <Stat.Root
+            bg={"blackAlpha.300"}
+            border={"1px solid"}
+            borderRadius={"md"}
+            p={"4"}
+          >
             <Stat.Label>Tags</Stat.Label>
             <Stat.ValueText>{tags.length}</Stat.ValueText>
           </Stat.Root>
 
-          <Stat.Root border={"1px solid"} borderRadius={"md"} p={"4"}>
+          <Stat.Root
+            bg={"blackAlpha.300"}
+            border={"1px solid"}
+            borderRadius={"md"}
+            p={"4"}
+          >
             <Stat.Label>Languages</Stat.Label>
             <Stat.ValueText>{languages.length}</Stat.ValueText>
           </Stat.Root>
