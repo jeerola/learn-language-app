@@ -2,6 +2,7 @@ import { Dialog, Button, Input, Portal, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { logIn, logOut } from "@/api";
 import { type User } from "../types";
+import { IoLogInOutline } from "react-icons/io5";
 
 interface Props {
   setUser: (user: User | null) => void;
@@ -60,7 +61,7 @@ export const LoginModal = ({ setUser, user }: Props) => {
           colorPalette={"orange"}
           onClick={() => setIsOpen(true)}
         >
-          LOG IN
+          LOG IN <IoLogInOutline />
         </Button>
       )}
       <Portal>
