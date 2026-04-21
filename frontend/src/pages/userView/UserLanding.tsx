@@ -30,13 +30,16 @@ export const UserLanding = ({ onTagSelect, wordPairs }: Props) => {
 
   return (
     <VStack>
+      
       <Button
         colorPalette={"yellow"}
         onClick={() =>
           setDirection(direction === "normal" ? "reversed" : "normal")
         }
       >
-        {direction === "normal" ? "Finnish → English" : "English → Finnish"}
+        {direction === "normal"
+          ? "🇫🇮 Finnish → 🇬🇧 English"
+          : "🇬🇧 English → 🇫🇮 Finnish"}
       </Button>
 
       <Heading> Tags </Heading>
