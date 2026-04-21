@@ -48,7 +48,6 @@ export const LoginModal = ({ setUser, user }: Props) => {
           <Button
             variant={"solid"}
             colorPalette={"orange"}
-            size={"sm"}
             onClick={() => handleLogOut()}
           >
             LOG OUT
@@ -58,7 +57,6 @@ export const LoginModal = ({ setUser, user }: Props) => {
       ) : (
         <Button
           variant={"solid"}
-          size={"sm"}
           colorPalette={"orange"}
           onClick={() => setIsOpen(true)}
         >
