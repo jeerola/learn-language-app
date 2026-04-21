@@ -66,10 +66,16 @@ export const LoginModal = ({ setUser, user }: Props) => {
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
-          <Dialog.Content>
+          <Dialog.Content color={"black"} bg={"#ffb7c3"}>
+            <Dialog.Header justifyContent={"center"} fontWeight={"bold"}>
+              Enter your credentials:
+            </Dialog.Header>
             <Dialog.Body>
               <Input
-                placeholder="username"
+                mb={2}
+                bg={"whiteAlpha.300"}
+                _placeholder={{ color: "blackAlpha.600" }}
+                placeholder="Username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 onKeyDown={(e) => {
@@ -77,7 +83,9 @@ export const LoginModal = ({ setUser, user }: Props) => {
                 }}
               ></Input>
               <Input
-                placeholder="password"
+                bg={"whiteAlpha.300"}
+                placeholder="Password"
+                _placeholder={{ color: "blackAlpha.600" }}
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -88,10 +96,10 @@ export const LoginModal = ({ setUser, user }: Props) => {
               {errorMessage && <Text color={"red"}>{errorMessage}</Text>}
             </Dialog.Body>
             <Dialog.Footer>
-              <Button variant="solid" onClick={handleLogIn}>
+              <Button colorPalette={"green"} onClick={handleLogIn}>
                 Login
               </Button>
-              <Button variant="solid" onClick={() => setIsOpen(false)}>
+              <Button colorPalette={"red"} onClick={() => setIsOpen(false)}>
                 Cancel
               </Button>
             </Dialog.Footer>
