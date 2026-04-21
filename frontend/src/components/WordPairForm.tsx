@@ -85,6 +85,7 @@ export function WordPairForm({
           <Input
             bg={"whiteAlpha.200"}
             placeholder="Word 1"
+            _placeholder={{ color: "whiteAlpha.800" }}
             type="text"
             value={word1}
             onChange={(e) => setWord1(e.target.value)}
@@ -105,11 +106,13 @@ export function WordPairForm({
                 </option>
               ))}
             </NativeSelect.Field>
+            <NativeSelect.Indicator />
           </NativeSelect.Root>
 
           <Input
             bg={"whiteAlpha.200"}
             placeholder="Word 2"
+            _placeholder={{ color: "whiteAlpha.800" }}
             type="text"
             value={word2}
             onChange={(e) => setWord2(e.target.value)}
@@ -130,6 +133,7 @@ export function WordPairForm({
                 </option>
               ))}
             </NativeSelect.Field>
+            <NativeSelect.Indicator />
           </NativeSelect.Root>
 
           <NativeSelect.Root
@@ -148,6 +152,7 @@ export function WordPairForm({
                 </option>
               ))}
             </NativeSelect.Field>
+            <NativeSelect.Indicator />
           </NativeSelect.Root>
         </HStack>
       </form>
