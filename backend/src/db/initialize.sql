@@ -1,3 +1,11 @@
+-- Drop tables everytime when db:init is ran
+DROP TABLE IF EXISTS word_pair_tag;
+DROP TABLE IF EXISTS word_pairs;
+DROP TABLE IF EXISTS words;
+DROP TABLE IF EXISTS tags;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS languages;
+
 -- Table for supported languages.
 -- New languages can be added without affecting existing data.
 CREATE TABLE IF NOT EXISTS languages (
