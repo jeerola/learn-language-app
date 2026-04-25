@@ -1,4 +1,6 @@
 -- Drop tables everytime when db:init is ran
+DROP TABLE IF EXISTS session_answers;
+DROP TABLE IF EXISTS sessions;
 DROP TABLE IF EXISTS word_pair_tag;
 DROP TABLE IF EXISTS word_pairs;
 DROP TABLE IF EXISTS words;
