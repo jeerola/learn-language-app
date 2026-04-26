@@ -3,6 +3,7 @@
 This is a web application designed to help users learn new languages with simple flash cards. Application allows users to create their own flash cards, tags (groups) and manage them.
 
 Live Demo: [https://learn-language-app.onrender.com](https://learn-language-app.onrender.com)
+Screencast: [https://www.youtube.com/watch?v=53M1MOYtass](https://www.youtube.com/watch?v=53M1MOYtass)
 
 ## Table of Contents
 
@@ -12,6 +13,7 @@ Live Demo: [https://learn-language-app.onrender.com](https://learn-language-app.
 4. [Known Issues](#known-issues)
 5. [Future Improvements](#future-improvements)
 6. [API Documentation](#api-documentation)
+7. [Screenshots](#screenshots)
 
 ## Tech stack
 
@@ -26,10 +28,6 @@ Live Demo: [https://learn-language-app.onrender.com](https://learn-language-app.
 - Node.js with Express server framework
 - PostgreSQL for database management
 - Docker for containerization
-
-### Testing
-
-- Not yet implemented.
 
 ## Features
 
@@ -49,24 +47,28 @@ Pre-requisites:
 - Docker installed and running
 
 1. Clone the repository
-2. Install dependencies for both frontend and backend
+2. Install dependencies for both frontend and backend:
 ```npm install```
-3. Build and run the Docker containers
+3. Build and run the Docker containers:
 ```docker-compose up -d```
-4. Set up the database and run initialization scripts
+4. Set up the database and run initialization scripts:
 ```npm run db:init --workspace=backend && npm run db:insert --workspace=backend```
-5. Start the backend and frontend servers
+5. Start the backend and frontend servers:
 ```npm run dev```
-6. Open the application in your browser at [http://localhost:3000](http://localhost:3000) and start creating word pairs!
+6. Open the application in your browser at [http://localhost:5173](http://localhost:5173) and start creating word pairs!
 
 ## Known Issues
 
-- Nothing major at the moment, but there may be some minor bugs.
+- Nothing major at the moment, but there might be some minor bugs.
 
 ## Future Improvements
 
 - Implement testing for both frontend and backend to ensure code quality and reliability.
 - Mobile responsiveness and design improvements for better user experience on different devices.
+- Improve input validation when creating wordpairs and tags.
+- Implement user registration and score tracking for individual users.
+- Add more languages than original English and Finnish.
+- Implement other game modes for practicing word pairs, such as connect the words or fill-in-the-blank.
 
 ## API Documentation
 
@@ -238,3 +240,13 @@ Pre-requisites:
     "message": "Logged out successfully"
 }
 ```
+
+## Screenshots
+
+![Screenshot 1](./images/screenshot1.png)
+Admin view with word pairs
+![Screenshot 2](./images/screenshot2.png)
+Practice mode view
+![Screenshot 3](./images/screenshot3.png)
+Login view
+![Screenshot 4](./images/screenshot4.png)
