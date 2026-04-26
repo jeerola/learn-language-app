@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { deleteWordPair, getLanguages, getTags, getWordPairs } from "../../api";
 import { type Language, type Tag, type WordPair } from "../../types";
 import { WordPairForm } from "../../components/WordPairForm";
-import { VStack, Heading, Table, Button, Stack } from "@chakra-ui/react";
+import { VStack, Heading, Table, Button, Stack, HStack } from "@chakra-ui/react";
 
 export const WordPairsView = () => {
   const [wordPairs, setWordPairs] = useState<WordPair[]>([]);
@@ -79,22 +79,23 @@ export const WordPairsView = () => {
                   ))}
                 </Table.Cell>
                 <Table.Cell>
-                  <Button
-                    variant={"solid"}
-                    colorPalette={"yellow"}
-                    mb={2}
-                    onClick={() => setEditingPair(wordPair)}
-                  >
-                    EDIT
-                  </Button>
+                  <HStack>
+                    <Button
+                      variant={"solid"}
+                      colorPalette={"yellow"}
+                      onClick={() => setEditingPair(wordPair)}
+                    >
+                      EDIT
+                    </Button>
 
-                  <Button
-                    variant={"solid"}
-                    colorPalette={"red"}
-                    onClick={() => handleDelete(wordPair.id)}
-                  >
-                    DELETE
-                  </Button>
+                    <Button
+                      variant={"solid"}
+                      colorPalette={"red"}
+                      onClick={() => handleDelete(wordPair.id)}
+                    >
+                      DELETE
+                    </Button>
+                  </HStack>
                 </Table.Cell>
               </Table.Row>
             ))}
