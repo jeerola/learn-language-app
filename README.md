@@ -47,15 +47,21 @@ Pre-requisites:
 - Docker installed and running
 
 1. Clone the repository
-2. Install dependencies for both frontend and backend:
+2. From the project root, install dependencies:
 ```npm install```
-3. Build and run the Docker containers:
+3. Copy `.env.example` to `.env` in the backend directory and in the root directory and fill in the values with your own configurations.
+
+4. Build and run the Docker containers:
 ```docker-compose up -d```
-4. Set up the database and run initialization scripts:
-```npm run db:init --workspace=backend && npm run db:insert --workspace=backend```
-5. Start the backend and frontend servers:
+5. Initialize the database:
+```npm run db:init --workspace=backend```
+6. Seed the database with sample data:
+```npm run db:insert --workspace=backend```
+7. Start the application:
 ```npm run dev```
-6. Open the application in your browser at [http://localhost:5173](http://localhost:5173) and start creating word pairs!
+8. Open the application in your browser at [http://localhost:5173](http://localhost:5173) and start creating word pairs!
+
+To access the admin view, log in with the credentials set in your `.env` file as `SEEDUSERPW`, username is `admin`.
 
 ## Known Issues
 
@@ -93,13 +99,11 @@ Pre-requisites:
 [
     {
         "id": 1,
-        "name": "English",
-        "code": "en"
+        "name": "English"
     },
     {
         "id": 2,
-        "name": "Finnish",
-        "code": "fi"
+        "name": "Finnish"
     }
 ]
 ```
