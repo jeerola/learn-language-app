@@ -249,4 +249,3 @@ Admin view with word pairs
 Practice mode view
 ![Screenshot 3](./images/screenshot3.png)
 Login view
-![Screenshot 4](./images/screenshot4.png)
