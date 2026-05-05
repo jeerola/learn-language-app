@@ -3,7 +3,6 @@
 This is a web application designed to help users learn new languages with simple flash cards. Application allows users to create their own flash cards, tags (groups) and manage them.
 
 Live Demo: [https://learn-language-app.onrender.com](https://learn-language-app.onrender.com)
-Screencast: [https://www.youtube.com/watch?v=53M1MOYtass](https://www.youtube.com/watch?v=53M1MOYtass)
 
 ## Table of Contents
 
