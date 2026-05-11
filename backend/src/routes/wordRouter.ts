@@ -56,6 +56,21 @@ router.get("/", async (req, res) => {
 router.post("/", checkIfAdmin, async (req, res) => {
   const { word1, language1_id, word2, language2_id } = req.body;
 
+  if (!word1?.trim() || !word2?.trim()) {
+  res.status(400).json({ error: "Words cannot be empty" });
+  return;
+}
+
+if (language1_id === language2_id) {
+  res.status(400).json({ error: "Both languages cannot be the same" });
+  return;
+}
+
+if (word1.length > 100 || word2.length > 100) {
+  res.status(400).json({ error: "Word cannot be over 100 characters" });
+  return;
+}
+
   // Take single client from pool to ensure all queries share the same connection
   const client = await pool.connect();
 
