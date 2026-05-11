@@ -66,3 +66,30 @@ describe("POST /api/words", () => {
     expect(response.status).toBe(400);
   });
 });
+
+describe("DELETE /api/words/:id", () => {
+  it("deletes existing word pair", async () => {
+    const createResponse = await request(app).post("/api/words").send({
+      word1: "Dog",
+      language1_id: 1,
+      word2: "Koira",
+      language2_id: 2,
+    });
+    expect(createResponse.status).toBe(201);
+
+    const id = createResponse.body.id;
+
+    const deleteResponse = await request(app).delete(`/api/words/${id}`);
+    expect(deleteResponse.status).toBe(204);
+  });
+
+  it("rejects deleting nonexisting id", async () => {
+    const deleteResponse = await request(app).delete("/api/words/99999");
+    expect(deleteResponse.status).toBe(404);
+  });
+
+  it("rejects deleting with invalid id", async () => {
+    const deleteResponse = await request(app).delete("/api/words/0");
+    expect(deleteResponse.status).toBe(400);
+  });
+});
