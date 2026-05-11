@@ -20,50 +20,49 @@ describe("GET /api/words", () => {
 });
 
 describe("POST /api/words", () => {
-    const longWord = "a".repeat(101);
+  const longWord = "a".repeat(101);
 
-    it("creates word pair with valid data", async () => {
-        const response = await request(app).post("/api/words").send({
-            word1: "Dog",
-            language1_id: 1,
-            word2: "Koira",
-            language2_id: 2,
-        });
-        expect(response.status).toBe(201);
-        expect(response.body).toMatchObject({
-            word1: "Dog",
-            word2: "Koira",
-        });
+  it("creates word pair with valid data", async () => {
+    const response = await request(app).post("/api/words").send({
+      word1: "Dog",
+      language1_id: 1,
+      word2: "Koira",
+      language2_id: 2,
     });
-
-    it("rejects empty word", async () => {
-        const response = await request(app).post("/api/words").send({
-            word1: "",
-            language1_id: 1,
-            word2: "Koira",
-            language2_id: 2,
-        });
-        expect(response.status).toBe(400);
+    expect(response.status).toBe(201);
+    expect(response.body).toMatchObject({
+      word1: "Dog",
+      word2: "Koira",
     });
+  });
 
-    it("rejects pairs with same language id", async () => {
-        const response = await request(app).post("/api/words").send({
-            word1: "Dog",
-            language1_id: 1,
-            word2: "Koira",
-            language2_id: 1,
-        });
-        expect(response.status).toBe(400);
+  it("rejects empty word", async () => {
+    const response = await request(app).post("/api/words").send({
+      word1: "",
+      language1_id: 1,
+      word2: "Koira",
+      language2_id: 2,
     });
+    expect(response.status).toBe(400);
+  });
 
-    it("rejects words longer than 100 characters", async () => {
-        const response = await request(app).post("/api/words").send({
-            word1: longWord,
-            language1_id: 1,
-            word2: "Koira",
-            language2_id: 2,
-        });
-        expect(response.status).toBe(400);
+  it("rejects pairs with same language id", async () => {
+    const response = await request(app).post("/api/words").send({
+      word1: "Dog",
+      language1_id: 1,
+      word2: "Koira",
+      language2_id: 1,
     });
+    expect(response.status).toBe(400);
+  });
 
+  it("rejects words longer than 100 characters", async () => {
+    const response = await request(app).post("/api/words").send({
+      word1: longWord,
+      language1_id: 1,
+      word2: "Koira",
+      language2_id: 2,
+    });
+    expect(response.status).toBe(400);
+  });
 });

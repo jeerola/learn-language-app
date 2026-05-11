@@ -12,10 +12,7 @@ export const testPool = new Pool({
   connectionString: process.env.TEST_DATABASE_URL,
 });
 
-const sql = readFileSync(
-  path.join(__dirname, "../db/initialize.sql"),
-  "utf-8",
-);
+const sql = readFileSync(path.join(__dirname, "../db/initialize.sql"), "utf-8");
 
 beforeAll(async () => {
   await testPool.query(sql);
