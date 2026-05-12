@@ -93,3 +93,47 @@ describe("DELETE /api/words/:id", () => {
     expect(deleteResponse.status).toBe(400);
   });
 });
+
+describe("PUT /api/words/:id", () => {
+  it("updates existing word pair", async () => {
+    const createResponse = await request(app).post("/api/words").send({
+      word1: "Dog",
+      language1_id: 1,
+      word2: "Koira",
+      language2_id: 2,
+    });
+    expect(createResponse.status).toBe(201);
+
+    const id = createResponse.body.id;
+
+    const putResponse = await request(app).put(`/api/words/${id}`).send({
+      word1: "Cat",
+      word2: "Kissa",
+    });
+    expect(putResponse.status).toBe(200);
+  });
+
+  it("rejects updating nonexisting id", async () => {
+    const putResponse = await request(app).put("/api/words/99999").send({
+      word1: "Cat",
+      word2: "Kissa",
+    });
+    expect(putResponse.status).toBe(404);
+  });
+
+  it("rejects updating with invalid id", async () => {
+    const putResponse = await request(app).put("/api/words/0").send({
+      word1: "Cat",
+      word2: "Kissa",
+    });
+    expect(putResponse.status).toBe(400);
+  });
+
+  it("rejects updating with empty word strings", async () => {
+    const putResponse = await request(app).put("/api/words/99999").send({
+      word1: "",
+      word2: "Kissa",
+    });
+    expect(putResponse.status).toBe(400);
+  });
+});
