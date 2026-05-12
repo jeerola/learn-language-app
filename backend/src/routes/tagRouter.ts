@@ -35,6 +35,11 @@ router.post("/", checkIfAdmin, async (req, res) => {
       return;
     }
 
+    if (tagName.length > 50) {
+      res.status(400).json({ error: "Tag name cannot be over 50 characters" });
+      return;
+    }
+
     try {
       const result = await pool.query(
         `INSERT INTO tags (name) VALUES ($1) RETURNING id, name`,
