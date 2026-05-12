@@ -46,3 +46,27 @@ describe("POST /api/tags", () => {
     expect(response.status).toBe(400);
   });
 });
+
+describe("DELETE /api/tags/:id", () => {
+  it("deletes existing tag", async () => {
+    const createResponse = await request(app).post("/api/tags").send({
+      name: "Animals",
+    });
+    expect(createResponse.status).toBe(201);
+
+    const id = createResponse.body.id;
+
+    const deleteResponse = await request(app).delete(`/api/tags/${id}`);
+    expect(deleteResponse.status).toBe(204);
+  });
+
+  it("rejects deleting tag with nonexisting id", async () => {
+    const deleteResponse = await request(app).delete("/api/tags/99999");
+    expect(deleteResponse.status).toBe(404);
+  });
+
+  it("rejects deleting tag with invalid id", async () => {
+    const deleteResponse = await request(app).delete("/api/tags/0");
+    expect(deleteResponse.status).toBe(400);
+  });
+});
