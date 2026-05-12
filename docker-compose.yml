@@ -11,6 +11,16 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+  db_test:
+    image: postgres:17
+    container_name: learn-language-db-test
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: learnlanguage_test
+    ports:
+     - "5433:5432"
+    restart: unless-stopped
 
 volumes:
   postgres_data:
