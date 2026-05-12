@@ -1,0 +1,48 @@
+import { describe, it, expect, vi } from "vitest";
+import request from "supertest";
+import express from "express";
+import tagRouter from "../routes/tagRouter.js";
+
+vi.mock("../middleware/auth.js", () => ({
+  checkIfAdmin: (req: any, res: any, next: any) => next(),
+}));
+
+const app = express();
+app.use(express.json());
+app.use("/api/tags", tagRouter);
+
+describe("GET /api/tags", () => {
+  it("returns all tags as an array", async () => {
+    const response = await request(app).get("/api/tags");
+    expect(response.status).toBe(200);
+    expect(Array.isArray(response.body)).toBe(true);
+  });
+});
+
+describe("POST /api/tags", () => {
+  const longName = "a".repeat(101);
+
+  it("creates new tag with valid data", async () => {
+    const response = await request(app).post("/api/tags").send({
+      name: "Animals",
+    });
+    expect(response.status).toBe(201);
+    expect(response.body).toMatchObject({
+      name: "Animals",
+    });
+  });
+
+  it("rejects new tag with empty name", async () => {
+    const response = await request(app).post("/api/tags").send({
+      name: "",
+    });
+    expect(response.status).toBe(400);
+  });
+
+  it("rejects tags longer than 100 characters", async () => {
+    const response = await request(app).post("/api/tags").send({
+      tagName: longName,
+    });
+    expect(response.status).toBe(400);
+  });
+});
