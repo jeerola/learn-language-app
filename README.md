@@ -28,6 +28,7 @@ Screencast: [https://www.youtube.com/watch?v=53M1MOYtass](https://www.youtube.co
 - Node.js with Express server framework
 - PostgreSQL for database management
 - Docker for containerization
+- Vitest and Supertest for testing
 
 ## Features
 
@@ -65,11 +66,11 @@ To access the admin view, log in with the credentials set in your `.env` file as
 
 ## Known Issues
 
-- Nothing major at the moment, but there might be some minor bugs.
+- No known issues right now.
 
 ## Future Improvements
 
-- Implement testing for both frontend and backend to ensure code quality and reliability.
+- Implement frontend component testing
 - Mobile responsiveness and design improvements for better user experience on different devices.
 - Improve input validation when creating wordpairs and tags.
 - Implement user registration and score tracking for individual users.
