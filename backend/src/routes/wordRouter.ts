@@ -218,10 +218,16 @@ router.put("/:id", checkIfAdmin, async (req, res) => {
     return;
   }
 
+  const { word1, word2 } = req.body;
+
+  // Reject request if param words are empty
+  if (!word1?.trim() || !word2?.trim()) {
+    res.status(400).json({ error: "Words cannot be empty" });
+    return;
+  }
+
   // Take single client from pool to ensure all queries share the same connection
   const client = await pool.connect();
-
-  const { word1, word2 } = req.body;
 
   try {
     await client.query("BEGIN");
