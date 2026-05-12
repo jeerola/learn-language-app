@@ -4,7 +4,7 @@ import path from "path";
 import { beforeAll, afterAll } from "vitest";
 import dotenv from "dotenv";
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
