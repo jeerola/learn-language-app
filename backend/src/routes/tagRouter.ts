@@ -30,6 +30,11 @@ router.get("/", async (req, res) => {
 router.post("/", checkIfAdmin, async (req, res) => {
     const tagName = req.body.name;
 
+    if (!tagName?.trim()) {
+      res.status(400).json({ error: "Tag name cannot be empty" });
+      return;
+    }
+
     try {
       const result = await pool.query(
         `INSERT INTO tags (name) VALUES ($1) RETURNING id, name`,
