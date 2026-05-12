@@ -20,7 +20,8 @@ describe("GET /api/tags", () => {
 });
 
 describe("POST /api/tags", () => {
-  const longName = "a".repeat(101);
+  const maxTagName = "a".repeat(50);
+  const longName = "a".repeat(51);
 
   it("creates new tag with valid data", async () => {
     const response = await request(app).post("/api/tags").send({
@@ -39,11 +40,21 @@ describe("POST /api/tags", () => {
     expect(response.status).toBe(400);
   });
 
-  it("rejects tags longer than 100 characters", async () => {
+  it("rejects tags longer than 50 characters", async () => {
     const response = await request(app).post("/api/tags").send({
-      tagName: longName,
+      name: longName,
     });
     expect(response.status).toBe(400);
+  });
+
+  it("creates tag that is 50 characters long", async () => {
+    const response = await request(app).post("/api/tags").send({
+      name: maxTagName,
+    });
+    expect(response.status).toBe(201);
+    expect(response.body).toMatchObject({
+      name: maxTagName,
+    });
   });
 });
 
